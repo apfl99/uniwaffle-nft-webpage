@@ -10,7 +10,7 @@ import { Connected } from './components/Connected';
 function App() {
 
 	const {connected} = useWallet();
-
+	
 	if (connected) {
 		return(
 			<Connected	/>
