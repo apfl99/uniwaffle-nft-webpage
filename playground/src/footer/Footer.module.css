@@ -1,0 +1,98 @@
+.footer {
+    margin-top: 7%;
+    display: flex;
+    flex-direction: column;
+    font: 14px/1 Pretendard, sans-serif;
+    height: 19%;
+    width: 100%;
+}
+
+.headerImage {
+  object-fit: contain;
+  object-position: center;
+  width: 100%;
+}
+
+.contentWrapper {
+  align-self: center;
+  display: flex;
+  margin-top: 55px;
+  width: 1017px;
+  max-width: 100%;
+  align-items: flex-start;
+  gap: 40px 100px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  height: 36%;
+}
+
+.logo {
+  aspect-ratio: 6.76;
+  object-fit: contain;
+  object-position: center;
+  width: 203px;
+}
+
+.contactContainer {
+  display: flex;
+  min-width: 240px;
+  flex-direction: column;
+  width: 50%;
+}
+
+.contactInfo {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 13px 28px;
+  color: #000;
+  font-weight: 600;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.companyName {
+  font-weight: 700;
+}
+
+.contactItem {
+  display: flex;
+  gap: 4px;
+}
+
+.contactLabel {
+  font-weight: 700;
+}
+
+.contactValue {
+  font-weight: 400;
+}
+
+.copyright {
+  color: rgba(0, 0, 0, 0.45);
+  font-weight: 500;
+  margin-top: 60px;
+}
+
+@media (max-width: 991px) {
+  .headerImage {
+    max-width: 100%;
+  }
+
+  .contentWrapper {
+    margin-top: 40px;
+  }
+
+  .contactContainer {
+    max-width: 100%;
+  }
+
+  .contactInfo {
+    max-width: 100%;
+  }
+
+  .copyright {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+}

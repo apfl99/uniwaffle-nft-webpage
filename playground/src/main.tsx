@@ -7,6 +7,7 @@ import Navbar from './Navigator/Nav.tsx'
 import Event from './event/event.tsx'
 import Gallery from './event/gallery.tsx'
 import WalletSection from './crypto-section/WalletSection.tsx'
+import {Footer} from './footer/Footer'
 
 import { Buffer } from 'buffer'
 
@@ -20,5 +21,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 		<Event />
 		<Gallery />
 		<WalletSection />
+		<Footer />
 	</React.StrictMode>,
 )
