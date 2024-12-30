@@ -98,9 +98,7 @@
   }
   #nft-card-wrapper {
     display: flex;
-    width: 304px;
     max-width: 100%;
-    align-items: center;
     gap: 24px;
     justify-content: flex-start;
   }

@@ -6,10 +6,10 @@ import Help from './event/help';
 import Explain from './event/explain';
 import { Connected } from './components/Connected';
 
+
 function App() {
 
 	const {connected} = useWallet();
-
 
 	if (connected) {
 		return(
