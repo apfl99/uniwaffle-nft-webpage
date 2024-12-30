@@ -1,0 +1,306 @@
+#nft-exchange-container {
+    border-radius: 20px;
+    background-color: rgba(247, 250, 254, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+  }
+  #wallet-connection {
+    border-radius: 12px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    font-family: Pretendard, sans-serif;
+    font-weight: 600;
+    text-align: center;
+    justify-content: flex-end;
+  }
+  #wallet-status {
+    border-radius: 100px;
+    background-color: rgba(235, 240, 255, 1);
+    align-self: stretch;
+    display: flex;
+    min-width: 240px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto 0;
+    padding: 16px 32px;
+  }
+  #wallet-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+  }
+  #address-wrapper {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 1);
+    justify-content: flex-start;
+    margin: auto 0;
+  }
+  #wallet-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 24px;
+    align-self: stretch;
+    margin: auto 0;
+  }
+  #disconnect-btn {
+    border-radius: 6px;
+    background-color: rgba(255, 89, 89, 1);
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 1);
+    justify-content: center;
+    margin: auto 0;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  #instructions {
+    display: flex;
+    margin-top: 80px;
+    width: 100%;
+    flex-direction: column;
+    font-family: Pretendard, sans-serif;
+    text-align: center;
+    justify-content: center;
+  }
+  #primary-text {
+    color: rgba(0, 0, 0, 1);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+  }
+  #secondary-text {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    margin-top: 20px;
+  }
+  #nft-display {
+    display: flex;
+    margin-top: 80px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #nft-card-wrapper {
+    display: flex;
+    width: 304px;
+    max-width: 100%;
+    align-items: center;
+    gap: 24px;
+    justify-content: flex-start;
+  }
+  #nft-card {
+    border-radius: 24px;
+    background-color: rgba(29, 29, 32, 1);
+    align-self: stretch;
+    display: flex;
+    min-width: 240px;
+    width: 304px;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto 0;
+    padding: 12px;
+  }
+  #nft-image-container {
+    border-radius: 12px;
+    display: flex;
+    max-width: 100%;
+    width: 280px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #nft-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    align-items: flex-end;
+    padding: 8px 28px 228px;
+  }
+  #nft-image {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  #collection-badge {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 44px;
+    border-radius: 100px;
+    margin-bottom: -46px;
+  }
+  #nft-details {
+    display: flex;
+    margin-top: 17px;
+    width: 100%;
+    flex-direction: column;
+    font-family: Pretendard, sans-serif;
+    justify-content: center;
+    padding: 0 8px;
+  }
+  #nft-text {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  #nft-title {
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  #nft-description {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    margin-top: 8px;
+  }
+  #exchange-btn {
+    border-radius: 12px;
+    background-color: rgba(60, 132, 255, 1);
+    display: flex;
+    margin-top: 17px;
+    width: 100%;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    justify-content: center;
+    padding: 16px 28px;
+    font: 700 18px Pretendard, sans-serif;
+    cursor: pointer;
+  }
+  #summary-section {
+    align-self: center;
+    display: flex;
+    margin-top: 80px;
+    width: 100%;
+    max-width: 1200px;
+    flex-direction: column;
+    align-items: center;
+    font-family: Pretendard, sans-serif;
+    color: rgba(0, 0, 0, 1);
+    justify-content: flex-start;
+  }
+  #total-amount {
+    border-color: rgba(0, 0, 0, 0.2);
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    display: flex;
+    min-height: 72px;
+    width: 100%;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+  #amount-wrapper {
+    align-self: stretch;
+    display: flex;
+    min-width: 240px;
+    align-items: center;
+    gap: 12px;
+    justify-content: flex-start;
+    margin: auto 0;
+  }
+  #amount-label {
+    font-size: 20px;
+    font-weight: 600;
+    align-self: stretch;
+    margin: auto 0;
+  }
+  #amount-value {
+    font-size: 40px;
+    font-weight: 700;
+    align-self: stretch;
+    margin: auto 0;
+  }
+  #retry-counter {
+    border-radius: 8px;
+    background-color: rgba(237, 239, 241, 1);
+    display: flex;
+    margin-top: 40px;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    justify-content: center;
+    padding: 16px 28px;
+  }
+  @media (max-width: 991px) {
+    #nft-exchange-container {
+      padding: 0 20px;
+    }
+    #wallet-connection {
+      max-width: 100%;
+    }
+    #wallet-status {
+      padding: 0 20px;
+    }
+    #instructions {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+    #primary-text {
+      max-width: 100%;
+    }
+    #secondary-text {
+      max-width: 100%;
+    }
+    #nft-display {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+    #nft-image-wrapper {
+      padding: 0 0 100px 20px;
+    }
+    #collection-badge {
+      margin-bottom: 10px;
+    }
+    #exchange-btn {
+      padding: 0 20px;
+    }
+    #summary-section {
+      max-width: 100%;
+      margin-top: 40px;
+    }
+    #total-amount {
+      max-width: 100%;
+    }
+    #retry-counter {
+      padding: 0 20px;
+    }
+  }
+  #visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }

@@ -1,38 +1,44 @@
 import { WalletDisconnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui'
 import './App.css'
 import { Toaster } from 'react-hot-toast'
-import { RequestAirdrop } from './components/RequestAirdrop'
-import { SignMessage } from './components/signMessage'
-import { SendLegacyTransaction } from './components/SendLegacyTransaction'
-import { SignTransaction } from './components/SignTransaction'
-import { SendTransaction } from './components/SendTransaction'
-import { SendV0Transaction } from './components/SendV0Transaction'
-import { Table } from './components/table'
+import { useWallet } from '@solana/wallet-adapter-react'
+import Help from './event/help';
+import Explain from './event/explain';
+import { Connected } from './components/Connected';
 
 function App() {
-	const headers = ['Name', 'Age', 'Country'];
-	const data = [
-		{ Name: 'Alice', Age: 25, Country: 'USA' },
-		{ Name: 'Bob', Age: 30, Country: 'Canada' },
-		{ Name: 'Charlie', Age: 35, Country: 'UK' },
-	];
 
-	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
-			<WalletMultiButton />
-			{/* <WalletDisconnectButton /> */}
-			<Toaster />
+	const {connected} = useWallet();
 
-			{/* Wallet Interaction */}
-			<SignMessage />
-			<SignTransaction />
-			<SendTransaction />
-			<SendV0Transaction />
-			<SendLegacyTransaction />
-			<RequestAirdrop />
-			<Table headers={headers} data={data}/>
-		</div>
-	)
+
+	if (connected) {
+		return(
+			<Connected	/>
+		)
+	} else {
+		return (
+			<div id="wallet-content">
+                <div id="wallet-header">
+                    <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/28020ae579b29da7f975e76553bfd95254febc78c4c19f23e59f396c54202e87?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
+                    id="wallet-icon"
+                    alt="Wallet connection icon"
+                    />
+                    <div id="wallet-message">
+                    WalletConnect를 통해 지갑을 연결하여
+                    <br />
+                    NFT에 숨겨진 USHD 토큰의 수량을 확인해보세요!
+                    </div>
+                </div>
+				<br />
+				<WalletMultiButton />
+				<Help />
+				<Explain />
+			</div>
+		)
+	}
+
 }
 
 export default App
