@@ -4,18 +4,30 @@ import './connected.css';
 import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 import axios from 'axios';
 
+interface NFT {
+	image: string;
+	name: string;
+	description: string;
+	mint_address: string;
+}
+
+const getPrizeAmount = async (address: string, mint_address: string) => {	
+	try {
+		const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${mint_address}`);
+		const prizeAmount = response.data;
+		console.log('Prize amount:', prizeAmount);
+	} catch (error) {
+		console.error('Error fetching prize amount:', error);
+	}
+}
 
 export const Connected: React.FC = () => {
 	const { connected, publicKey } = useWallet();
 	const [loading, setLoading] = React.useState(false);
-	interface NFT {
-		image: string;
-		name: string;
-		description: string;
-	}
 
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
-	const address = "Aer7qXzAax8UUWf4UKAsXaNVD4p6uMVTWeVbgWFLTSem";
+	const address = publicKey?.toBase58() || '';
+	// const address = "Aer7qXzAax8UUWf4UKAsXaNVD4p6uMVTWeVbgWFLTSem";
 
 	const fetchNFTData = async (address: string) => {
 		setLoading(true);
@@ -29,6 +41,22 @@ export const Connected: React.FC = () => {
 			setLoading(false);
 		}
 	};
+
+	const saveMintAddressesToDB = async (nftData: NFT[]) => {
+		try {
+			const mintAddresses = nftData.map(nft => nft.mint_address);
+			await axios.post('https://your-web-db-endpoint.com/saveMintAddresses', { mintAddresses });
+			console.log('Mint addresses saved to DB');
+		} catch (error) {
+			console.error('Error saving mint addresses to DB:', error);
+		}
+	};
+
+	React.useEffect(() => {
+		if (nftData.length > 0) {
+			saveMintAddressesToDB(nftData);
+		}
+	}, [nftData]);
 
 	React.useEffect(() => {
 		if (address) {
@@ -81,11 +109,11 @@ export const Connected: React.FC = () => {
 											<div id="nft-description">{nft.description}</div>
 										</div>
 									</div>
-									<button id="exchange-btn">교환 금액 확인</button>
+									<button id="exchange-btn" onClick={() => getPrizeAmount(address, nft.mint_address)}>교환 금액 확인</button>
 								</div>
 							))
 						) : (
-							<div id="no-nft-message">NFT 데이터를 불러올 수 없습니다.</div>
+							<div id="no-nft-message">waffleee NFT 데이터를 불러올 수 없습니다.</div>
 						)}
 					</div>
 				</div>

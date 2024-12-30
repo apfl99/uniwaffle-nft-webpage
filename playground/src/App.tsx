@@ -10,10 +10,12 @@ import { Connected } from './components/Connected';
 function App() {
 
 	const {connected} = useWallet();
-	
+
 	if (connected) {
 		return(
-			<Connected	/>
+			<div id="wallet-section">
+				<Connected	/>
+			</div>
 		)
 	} else {
 		return (
