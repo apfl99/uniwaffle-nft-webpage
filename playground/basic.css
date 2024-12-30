@@ -17,7 +17,7 @@ html, body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh;
+    height: 100vh; /*min-height -> 화면이 처음부터시작을 안함함*/
     min-width: 100vw;
 }
 
@@ -259,4 +259,166 @@ html, body {
   #help-text {
     max-width: 100%;
   }
+}
+
+#wallet-guide {
+display: flex;
+padding-bottom: 60px;
+flex-direction: column;
+overflow: hidden;
+justify-content: start;
+}
+
+#header-section {
+background-color: rgba(235, 240, 255, 1);
+display: flex;
+width: 100%;
+align-items: center;
+color: rgba(0, 0, 0, 1);
+text-align: center;
+justify-content: center;
+font: 600 18px Pretendard, sans-serif;
+}
+#header-container {
+align-self: stretch;
+display: flex;
+min-width: 240px;
+width: 100%;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+flex: 1;
+flex-basis: 0%;
+margin: auto 0;
+padding: 16px 32px;
+}
+#header-title-wrapper {
+display: flex;
+align-items: center;
+gap: 12px;
+justify-content: center;
+}
+#header-title {
+align-self: stretch;
+gap: 8px;
+margin: auto 0;
+}
+#steps-container {
+align-self: center;
+display: flex;
+margin-top: 60px;
+width: 100%;
+flex-direction: column;
+justify-content: center;
+}
+#step-wrapper {
+display: flex;
+width: 100%;
+flex-direction: column;
+align-items: center;
+font-family: Pretendard, sans-serif;
+text-align: center;
+justify-content: center;
+}
+#step-content {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: start;
+}
+#step-indicator {
+display: inline-block;
+border-radius: 50px;
+gap: 10px;
+font-size: 14px;
+color: rgba(60, 132, 255, 1);
+font-weight: 700;
+padding: 0.5em 1em;
+border: 2px solid rgba(60, 132, 255, 1);
+margin-top: 24px;
+}
+
+#step-description {
+color: rgba(0, 0, 0, 1);
+font-size: 18px;
+font-weight: 600;
+line-height: 2;
+margin-top: 8px;
+}
+#arrow-separator {
+align-self: center;
+display: flex;
+margin-top: 24px;
+min-height: 30px;
+align-items: center;
+gap: 10px;
+justify-content: start;
+}
+#arrow-icon {
+aspect-ratio: 2.25;
+object-fit: contain;
+object-position: center;
+width: 18px;
+align-self: stretch;
+margin: auto 0;
+}
+#wallet-screenshot {
+aspect-ratio: 1.42;
+object-fit: contain;
+object-position: center;
+width: 228px;
+border-radius: 0px;
+margin-top: 16px;
+max-width: 100%;
+}
+#trust-wallet-screenshot {
+aspect-ratio: 0.7;
+object-fit: contain;
+object-position: center;
+width: 194px;
+border-radius: 0px;
+margin-top: 16px;
+max-width: 100%;
+}
+#qr-screenshot {
+aspect-ratio: 0.64;
+object-fit: contain;
+object-position: center;
+width: 194px;
+border-radius: 0px;
+align-self: center;
+margin-top: 16px;
+max-width: 100%;
+}
+#step-subtitle {
+color: rgba(0, 0, 0, 0.75);
+font-size: 16px;
+font-weight: 500;
+align-self: stretch;
+margin-top: 8px;
+}
+@media (max-width: 991px) {
+#header-section {
+  max-width: 100%;
+}
+#header-container {
+  max-width: 100%;
+  padding: 0 20px;
+}
+#steps-container {
+  max-width: 100%;
+  margin-top: 40px;
+}
+#step-wrapper {
+  max-width: 100%;
+}
+#arrow-separator {
+  margin-top: 40px;
+}
+#step-description {
+  max-width: 100%;
+}
+#step-subtitle {
+  max-width: 100%;
+}
 }

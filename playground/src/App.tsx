@@ -20,7 +20,7 @@ function App() {
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
 			<WalletMultiButton />
-			<WalletDisconnectButton />
+			{/* <WalletDisconnectButton /> */}
 			<Toaster />
 
 			{/* Wallet Interaction */}
