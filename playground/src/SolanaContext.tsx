@@ -16,10 +16,8 @@ type Networks = WalletAdapterNetwork.Devnet | WalletAdapterNetwork.Mainnet
 
 export const SolanaContext = ({ children }: { children: ReactNode }) => {
 	const [currentNetwork, setCurrentNetwork] = useState<Networks>(WalletAdapterNetwork.Mainnet)
-	// The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
 
-	// You can also provide a custom RPC endpoint.
-	const endpoint = useMemo(() => clusterApiUrl(currentNetwork), [currentNetwork])
+	const endpoint = "http://1.229.180.186:15000"
 
 	const wallets = useMemo(
 		() => [
@@ -30,7 +28,6 @@ export const SolanaContext = ({ children }: { children: ReactNode }) => {
 				},
 			}),
 		],
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[currentNetwork],
 	)
 
@@ -38,12 +35,6 @@ export const SolanaContext = ({ children }: { children: ReactNode }) => {
 		<ConnectionProvider endpoint={endpoint}>
 			<WalletProvider wallets={wallets} autoConnect>
 				<WalletModalProvider>
-					{/* <div style={{ display: 'flex', gap: '15px', margin: '20px', alignItems: 'center', flexDirection: 'column' }}>
-						Current Network: {currentNetwork.toLocaleUpperCase()}
-						<button onClick={() => setCurrentNetwork(toggleNetwork)}>
-							Change Network to {toggleNetwork(currentNetwork)}
-						</button>
-					</div> */}
 					{children}
 				</WalletModalProvider>
 			</WalletProvider>

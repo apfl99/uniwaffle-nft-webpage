@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 import { SolanaContext } from './SolanaContext.tsx'
+import Navbar from './Navigator/Nav.tsx'
+import Event from './event/event.tsx'
+import Gallery from './event/gallery.tsx'
+import WalletSection from './crypto-section/WalletSection.tsx'
 
 import { Buffer } from 'buffer'
 
@@ -12,8 +16,9 @@ if (typeof window !== 'undefined' && window.Buffer === undefined) {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<SolanaContext>
-			<App />
-		</SolanaContext>
+		<Navbar />
+		<Event />
+		<Gallery />
+		<WalletSection />
 	</React.StrictMode>,
 )
