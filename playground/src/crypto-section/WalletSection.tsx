@@ -6,11 +6,9 @@ import Explain from '../event/explain.tsx'
 
 const WalletSection: React.FC = () => {
     return (
-        <div id="wallet-section">
-            <SolanaContext>
-                <App />
-            </SolanaContext>    
-        </div>
+        <SolanaContext>
+            <App />
+        </SolanaContext>    
     );
 };
 
