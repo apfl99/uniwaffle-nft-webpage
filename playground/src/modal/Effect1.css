@@ -1,0 +1,187 @@
+/* 교환하기 눌렀을때 이펙트 모달 css */
+/* Modal 배경 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8); /* 어두운 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal 내용 */
+  .modal-content {
+    position: relative; /* 이미지 겹치기를 위해 상대 위치 설정 */
+    width: 300px; /* 컨테이너 크기 */
+    height: 300px;
+  }
+  
+  /* 첫 번째 이미지 */
+  .main-image {
+    width: 300%;
+    height: 300%;
+    object-fit: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1; /* 이미지 뒤로 보냄 */
+  }
+  
+  
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  .nft-card-wrapper {
+    box-shadow: 0px 0px 12px rgba(255, 199, 13, 0.25);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    justify-content: flex-start;
+  }
+
+  .nft-card {
+    border-radius: 24px;
+    background-color: rgba(29, 29, 32, 1);
+    align-self: stretch;
+    display: flex;
+    width: 304px;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto 0;
+    padding: 12px;
+  }
+
+  .nft-image-container {
+    border-radius: 12px;
+    display: flex;
+    max-width: 100%;
+    width: 280px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .nft-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    align-items: flex-end;
+    padding: 8px 28px 228px;
+  }
+
+  .nft-artwork {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .nft-creator-avatar {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 44px;
+    border-radius: 100px;
+    margin-bottom: -46px;
+  }
+
+  .nft-content {
+    display: flex;
+    margin-top: 17px;
+    width: 100%;
+    flex-direction: column;
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    justify-content: center;
+    padding: 0 8px;
+  }
+
+  .nft-text-content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .nft-heading {
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .nft-description {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    margin: 8px 0 0 0;
+  }
+
+  .nft-price-section {
+    border-radius: 12px;
+    background-color: rgba(62, 62, 76, 1);
+    position: relative;
+    display: flex;
+    margin-top: 17px;
+    width: 100%;
+    align-items: flex-start;
+    gap: 12px;
+    color: rgba(107, 246, 165, 1);
+    text-align: center;
+    justify-content: center;
+    padding: 16px 28px;
+    font: 700 18px Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  }
+
+  .nft-price-amount {
+    align-self: stretch;
+    gap: 12px;
+    margin: auto 0;
+  }
+
+  .nft-price-decoration {
+    aspect-ratio: 5.32;
+    object-fit: contain;
+    object-position: center;
+    width: 282px;
+    align-self: flex-start;
+    position: absolute;
+    z-index: 0;
+    min-width: 240px;
+    right: -2px;
+    bottom: 0;
+    height: 53px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+  @media screen and (forced-colors: active) {
+    .nft-card {
+      border: 2px solid CanvasText;
+    }
+    
+    .nft-price-section {
+      border: 1px solid CanvasText;
+    }
+  } 

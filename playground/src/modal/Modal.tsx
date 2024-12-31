@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Modal.css";
+import "./Effect1.css";
+import {Card} from './Card'
 
 interface ModalProps {
   isOpen: boolean;
@@ -8,6 +10,19 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null; // 모달이 열리지 않은 경우 렌더링하지 않음
+
+  //// 교환하기 이펙트 관리
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  const handleButtonClick = (): void => {
+    setIsVisible(true);
+
+    // 3초 후 자동으로 사라지게 설정
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 3000);
+  };
+  ////
 
   return (
     <div
@@ -74,7 +89,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="button-container">
               <button
                 className="exchange-button"
-                onClick={() => alert("NFT 교환하기 클릭됨!")}
+                onClick={handleButtonClick}
               >
                 NFT 교환하기
               </button>
@@ -85,15 +100,33 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           </div>
 
           <div className="preview-container">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/89152492d7ab112b12c0a80950c134b3d88834f7b6f9d581c6bc32da0614bbd6?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
-              className="preview-image"
-              alt="NFT preview"
-            />
+              <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/89152492d7ab112b12c0a80950c134b3d88834f7b6f9d581c6bc32da0614bbd6?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
+                  className="preview-image"
+                  alt="NFT preview"
+                />
             <div className="preview-price">??? USHD</div>
           </div>
         </div>
+      </div>
+
+      {/* 교환버튼 클릭시 카드뽑기 이펙트 */}
+      <div className="effect1-container">
+      {isVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            {/* 첫 번째 이미지 */}
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c5751c202c4e55c59754fd90b4b1b257644a363c82c460c27e69fecc8b10b7ea?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
+              alt="Effect"
+              className="main-image"
+            />
+            {/* 두 번째 이미지를 겹침 */}
+            <Card />
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
