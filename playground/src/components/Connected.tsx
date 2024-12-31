@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import './connected.css';
 import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 import axios from 'axios';
+import {Modal} from '../modal/Modal'
 
 interface NFT {
 	image: string;
@@ -22,6 +23,14 @@ const getPrizeAmount = async (address: string, mint_address: string) => {
 }
 
 export const Connected: React.FC = () => {
+
+	//// 모달창 컨트롤
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const openModal = () => setIsModalOpen(true);
+	const closeModal = () => setIsModalOpen(false);
+	////
+
 	const { connected, publicKey } = useWallet();
 	const [loading, setLoading] = React.useState(false);
 
@@ -113,10 +122,17 @@ export const Connected: React.FC = () => {
 								</div>
 							))
 						) : (
-							<div id="no-nft-message">waffleee NFT 데이터를 불러올 수 없습니다.</div>
+							<div id="no-nft-message">
+								{/* // 임시테스트버튼 */}
+								<button onClick={openModal}>Exchange Button</button>
+								waffleee NFT 데이터를 불러올 수 없습니다.
+							</div>
+
 						)}
 					</div>
 				</div>
+				{/* 모달 컴포넌트 */}
+				<Modal isOpen={isModalOpen} onClose={closeModal} />
 				<div id="summary-section">
 					<div id="total-amount">
 						<div id="amount-wrapper">
