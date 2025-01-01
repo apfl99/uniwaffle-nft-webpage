@@ -215,6 +215,23 @@ font-weight: 500;
 justify-content: center;
 padding: 16px 28px;
 }
+
+.close-effect-button {
+    border-radius: 8px;
+    display: flex;
+    margin-top: 8px;
+    min-height: 53px;
+    width: 100%;
+    max-width: 432px;
+    align-items: center;
+    gap: 12px;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 500;
+    justify-content: center;
+    padding: 16px 28px;
+    position: relative; /* z-index가 동작하려면 position이 필요 */
+    z-index: 1001; /* 충분히 높은 값 */
+    }
 .preview-price {
 margin-top: 40px;
 }

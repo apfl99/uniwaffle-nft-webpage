@@ -13,18 +13,12 @@ interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null; // 모달이 열리지 않은 경우 렌더링하지 않음
 
-  //// 교환하기 이펙트 관리
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  //// 이펙트창 컨트롤
+	const [isEffectOpen, setIsEffectOpen] = useState(false);
 
-  const handleButtonClick = (): void => {
-    setIsVisible(true);
-
-    // 3초 후 자동으로 사라지게 설정
-    setTimeout(() => {
-      setIsVisible(false);
-    }, 3000);
-  };
-  ////
+	const openEffect = () => setIsEffectOpen(true);
+	const closeEffect = () => setIsEffectOpen(false);
+	////
 
   return (
     <div
@@ -91,7 +85,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="button-container">
               <button
                 className="exchange-button"
-                onClick={handleButtonClick}
+                onClick={openEffect}
               >
                 NFT 교환하기
               </button>
@@ -115,7 +109,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
       {/* 교환버튼 클릭시 카드뽑기 이펙트 */}
       <div className="effect1-container">
-      {isVisible && (
+      {isEffectOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             {/* 첫 번째 이미지 */}
@@ -127,6 +121,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             />
             {/* 두 번째 이미지를 겹침 */}
             <Card />
+            <button className="close-effect-button" onClick={closeEffect}>
+              닫기
+            </button>
           </div>
         </div>
       )}
