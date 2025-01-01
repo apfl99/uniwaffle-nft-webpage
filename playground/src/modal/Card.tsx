@@ -1,5 +1,8 @@
 import React, {useState} from "react";
 import "./Card.css";
+import Player from "lottie-react";
+import scratchOff from "../animation/scratch-off.json";
+import coin from "../animation/coin.json";
 
 
 
@@ -34,19 +37,31 @@ export const Card: React.FC = () => {
                   </div>
                 </div>
                 <div className="nft-price-section">
-                  <img
+                  {/* <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/9377e8805dcc67ef3c8c6e3ffb4e8e6c2abe6963ea18a601733f74f94abc011d?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
                     className="nft-price-decoration"
                     alt=""
                     aria-hidden="true"
-                  />
-
-                    <img
+                  /> */}
+                    <Player
+                      autoplay
+                      loop
+                      animationData={scratchOff} // 여기서 src 대신 animationData를 사용
+                      className="nft-price-decoration"
+                    />
+                    {/* 여기에 가격추가 */}
+                    {/* <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/3b4a0f870043798420ad058b7c2cd80c2e967cfb1bda70caa0857b9da48d3c22?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
                     alt="Hero section promotional image"
                     className="coin-image"
+                    /> */}
+                    <Player
+                      autoplay
+                      loop
+                      animationData={coin} // 여기서 src 대신 animationData를 사용
+                      className="coin-image"
                     />
                   
                 </div>

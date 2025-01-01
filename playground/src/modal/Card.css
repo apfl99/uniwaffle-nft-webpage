@@ -127,7 +127,7 @@
   .nft-price-decoration {
     position: absolute;
     width: 100%; /* 부모 요소의 전체 너비로 설정 */
-    height: auto; /* 이미지 비율 유지 */
+    height: 99%; /* 이미지 비율 유지 */
     bottom: 0; /* 부모 요소의 하단에 맞춤 */
     left: 0; /* 왼쪽 경계에 맞춤 */
     transform: none; /* 중앙 정렬 효과 제거 */
