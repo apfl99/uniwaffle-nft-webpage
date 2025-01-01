@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import "./Modal.css";
 import "./Effect1.css";
 import {Card} from './Card'
+import Player from "lottie-react";
+import animationData from "../animation/light.json";
 
 interface ModalProps {
   isOpen: boolean;
@@ -117,10 +119,11 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <div className="modal-overlay">
           <div className="modal-content">
             {/* 첫 번째 이미지 */}
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c5751c202c4e55c59754fd90b4b1b257644a363c82c460c27e69fecc8b10b7ea?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
-              alt="Effect"
-              className="main-image"
+            <Player
+              autoplay
+              loop
+              animationData={animationData} // 여기서 src 대신 animationData를 사용
+              className="light-image"
             />
             {/* 두 번째 이미지를 겹침 */}
             <Card />

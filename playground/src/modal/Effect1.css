@@ -21,16 +21,15 @@
   }
   
   /* 첫 번째 이미지 */
-  .main-image {
+  .light-image {
+    position: absolute;
+    top: 50%; 
+    left: 50%;         
+    transform: translate(-50%, -50%); 
     width: 300%;
     height: 300%;
     object-fit: contain;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1; /* 이미지 뒤로 보냄 */
-  }
+}
   
   
 .visually-hidden {
