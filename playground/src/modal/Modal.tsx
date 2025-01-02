@@ -1,9 +1,5 @@
 import React, {useState} from "react";
 import "./Modal.css";
-import "./Effect1.css";
-import {Card} from './Card'
-import Player from "lottie-react";
-import animationData from "../animation/light.json";
 
 interface ModalProps {
   isOpen: boolean;
@@ -13,12 +9,6 @@ interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null; // 모달이 열리지 않은 경우 렌더링하지 않음
 
-  //// 이펙트창 컨트롤
-	const [isEffectOpen, setIsEffectOpen] = useState(false);
-
-	const openEffect = () => setIsEffectOpen(true);
-	const closeEffect = () => setIsEffectOpen(false);
-	////
 
   return (
     <div
@@ -85,7 +75,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="button-container">
               <button
                 className="exchange-button"
-                onClick={openEffect}
+                onClick={()=>alert("교환하기 클릭")}
               >
                 NFT 교환하기
               </button>
@@ -107,27 +97,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      {/* 교환버튼 클릭시 카드뽑기 이펙트 */}
-      <div className="effect1-container">
-      {isEffectOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            {/* 첫 번째 이미지 */}
-            <Player
-              autoplay
-              loop
-              animationData={animationData} // 여기서 src 대신 animationData를 사용
-              className="light-image"
-            />
-            {/* 두 번째 이미지를 겹침 */}
-            <Card />
-            <button className="close-effect-button" onClick={closeEffect}>
-              닫기
-            </button>
-          </div>
-        </div>
-      )}
-      </div>
     </div>
   );
 };

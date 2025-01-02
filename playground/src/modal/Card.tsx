@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./Card.css";
 import Player from "lottie-react";
 import scratchOff from "../animation/scratch-off.json";

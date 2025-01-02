@@ -4,6 +4,7 @@ import './connected.css';
 import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 import axios from 'axios';
 import {Modal} from '../modal/Modal'
+import {Effect} from '../effect/Effect'
 
 interface NFT {
 	image: string;
@@ -29,6 +30,12 @@ export const Connected: React.FC = () => {
 
 	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
+	
+	//// 이펙트창 컨트롤
+	const [isEffectOpen, setIsEffectOpen] = useState(false);
+
+	const openEffect = () => setIsEffectOpen(true);
+	const closeEffect = () => setIsEffectOpen(false);
 	////
 
 	const { connected, publicKey } = useWallet();
@@ -123,7 +130,12 @@ export const Connected: React.FC = () => {
 							))
 						) : (
 							<div id="no-nft-message">
-								{/* // 임시테스트버튼 */}
+
+								{/* 금액확인 버튼 클릭시 카드뽑기 이펙트 */}
+								<button onClick={openEffect}>금액확인</button>
+								<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect}/>
+
+								{/* 교환창 모달 */}
 								<button onClick={openModal}>Exchange Button</button>
 								waffleee NFT 데이터를 불러올 수 없습니다.
 							</div>
