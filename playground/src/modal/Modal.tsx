@@ -9,6 +9,11 @@ interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null; // 모달이 열리지 않은 경우 렌더링하지 않음
 
+  const [leftPosition, setLeftPosition] = useState("0px");
+
+  const handleExchangeClick = () => {
+    setLeftPosition("450px");
+  };
 
   return (
     <div
@@ -25,17 +30,17 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         zIndex: 1000,
       }}
     >
-      <div className="nft-exchange-container">
+      <div className="exchange-container">
         <div className="content-wrapper">
-          <div className="nft-card-container">
-            <div className="nft-card">
+          <div className="card-container">
+            <div className="card" style={{left: leftPosition}}>
               <div className="image-container">
                 <div className="image-wrapper">
                   <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/de6380ad135d8dcbc54c9ac73b9dc8b6eeb05db1c14e516e5bf8f25283274a68?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
-                    className="nft-image"
-                    alt="NFT artwork preview"
+                    className="image"
+                    alt="artwork preview"
                   />
                   <img
                     loading="lazy"
@@ -45,10 +50,10 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   />
                 </div>
               </div>
-              <div className="nft-info">
+              <div className="info">
                 <div className="title-container">
-                  <div className="nft-title">Uniwaffle Friends #192</div>
-                  <div className="nft-description">
+                  <div className="title">Uniwaffle Friends #192</div>
+                  <div className="description">
                     A Collection of Uniwaffle 2025 Beta Test Commemoratives
                   </div>
                 </div>
@@ -57,6 +62,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <div className="price-text">1849 USHD</div>
               </div>
             </div>
+            
             <div className="price-large">1849 USHD</div>
           </div>
 
@@ -64,9 +70,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           <div className="exchange-info">
             <div className="info-text">
               <div className="main-text">
-                NFT를 교환하려면
+                 교환하려면
                 <br />
-                NFT 교환하기 버튼을 누르세요.
+                교환하기 버튼을 누르세요.
               </div>
               <div className="warning-text">
                 교환하면 이전으로 되돌릴 수 없습니다.
@@ -75,9 +81,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="button-container">
               <button
                 className="exchange-button"
-                onClick={()=>alert("교환하기 클릭")}
+                onClick={handleExchangeClick}
               >
-                NFT 교환하기
+                교환하기
               </button>
               <button className="close-button" onClick={onClose}>
                 창 닫기
@@ -90,7 +96,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/89152492d7ab112b12c0a80950c134b3d88834f7b6f9d581c6bc32da0614bbd6?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
                   className="preview-image"
-                  alt="NFT preview"
+                  alt="preview"
                 />
             <div className="preview-price">??? USHD</div>
           </div>
