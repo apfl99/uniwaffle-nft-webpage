@@ -46,9 +46,11 @@
     flex-direction: column;
     position: relative;
     aspect-ratio: 1; /* 유지 */
-    width: 100%;
+    width: 100% !important;
     align-items: center; /* 중앙 정렬 */
     padding: 0; /* 패딩 제거 */
+    overflow: visible !important; /* 자식 요소가 잘리지 않도록 설정 */
+    max-width: none !important; /* 크기 제한 해제 */
     
     
   }
@@ -104,19 +106,19 @@
   }
 
   .nft-price-section {
-    position: relative;
+    position: relative; /* 자식 요소의 기준이 되도록 설정 */
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 8px;
     background-color: rgba(62, 62, 76, 1);
     border-radius: 12px;
-    padding: 0 16px;
-    width: auto;
-    max-width: 300px;
-    height: 60px;
-    overflow: visible; /* 자식 요소가 잘리지 않도록 설정 */
-  }
+    width: 100%;
+    max-width: 250px;
+    height: 50px;
+    margin: 0 auto;
+    overflow: visible; /* 자식 요소가 부모 영역을 벗어나지 않도록 */
+}
 
   .nft-price-amount {
     align-self: stretch;
@@ -126,13 +128,12 @@
 
   .nft-price-decoration {
     position: absolute;
-    width: 100%; /* 부모 요소의 전체 너비로 설정 */
-    height: 99%; /* 이미지 비율 유지 */
-    bottom: 0; /* 부모 요소의 하단에 맞춤 */
-    left: 0; /* 왼쪽 경계에 맞춤 */
-    transform: none; /* 중앙 정렬 효과 제거 */
-    z-index: 0; /* 텍스트 뒤에 배치 */
-  }
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 100008; /* 코인보다 낮은 우선순위 */
+}
 
   @media (prefers-reduced-motion: reduce) {
     * {
@@ -151,14 +152,24 @@
     }
   }
 
-  .coin-image {
-    aspect-ratio: 3.03;
-    object-fit: contain;
-    object-position: center;
-    width: 100%;
-    max-width: 440px;
-    z-index: 9999; /* 가장 앞에 나오도록 높은 z-index 값 설정 */
-    margin-left: -40px; /* 왼쪽으로 이동 */
-    position: relative; /* z-index가 작동하려면 position 설정 필요 */
-  }
-  
+ .coin-image {
+    aspect-ratio: 1 !important; /* 정사각형 비율 */
+    object-fit: contain !important;
+    object-position: center !important;
+    width: 600% !important; /* 적절한 크기 설정 */
+    height: 600% !important; /* 동일한 높이 설정 */
+    z-index: 100009 !important; /* 다른 요소와의 충돌 방지 */
+    position: relative !important;
+}
+
+.effect-text {
+  font: 700 18px Pretendard, sans-serif;
+  color: rgba(107, 246, 165, 1); /* 텍스트 색상 */
+  z-index: 2; /* 코인 이미지 위에 표시 */
+  position: absolute; /* 부모 기준으로 중앙 정렬 */
+  top: 50%; /* 수직 중앙 정렬 */
+  left: 50%; /* 가로 중앙 정렬 */
+  transform: translate(-50%, -50%); /* 정확히 가운데 배치 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  pointer-events: none; /* 텍스트가 클릭되지 않도록 설정 (선택사항) */
+}
