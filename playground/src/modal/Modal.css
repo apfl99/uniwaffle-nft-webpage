@@ -99,6 +99,9 @@ object-position: center;
 width: 44px;
 border-radius: 100px;
 margin-bottom: -46px;
+position: relative; /* z-index가 동작하도록 설정 */
+z-index: 10; /* 우선순위 높이기 */
+transform: translate(-19%, 23%);
 }
 .info {
 display: flex;

@@ -71,6 +71,9 @@
     width: 44px;
     border-radius: 100px;
     margin-bottom: -46px;
+    position: relative; /* z-index가 동작하도록 설정 */
+    z-index: 10; /* 우선순위 높이기 */
+    transform: translate(250%, 11%); /* 정확히 세로 중앙 정렬 */
   }
 
   .nft-content {
