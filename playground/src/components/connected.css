@@ -98,47 +98,92 @@
   }
   #nft-card-wrapper {
     display: flex;
-    max-width: 100%;
-    gap: 24px;
-    justify-content: flex-start;
+    flex-wrap: wrap; /* 행 넘김 허용 */
+    gap: 24px; /* 카드 간 간격 */
+    justify-content: center; /* 카드들을 중앙 정렬 */
   }
-  #nft-card {
-    border-radius: 24px;
-    background-color: rgba(29, 29, 32, 1);
-    align-self: stretch;
-    display: flex;
-    min-width: 240px;
-    width: 304px;
-    flex-direction: column;
-    justify-content: center;
-    margin: auto 0;
-    padding: 12px;
+.ncard {
+  border-radius: 24px;
+  background-color: rgba(29, 29, 32, 1);
+  align-self: stretch;
+  display: flex;
+  min-width: 240px;
+  width: 304px;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 0;
+  padding: 12px;
+}
+
+  
+.nimage-container {
+  border-radius: 12px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+.nimage-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  height: 0;
+  align-items: end;
+  padding-bottom: 100%;
+}
+.nimage {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.nprofile-image {
+  aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
+  width: 42px;
+  border-radius: 100px;
+  margin-bottom: -46px;
+  position: relative; /* z-index가 동작하도록 설정 */
+  z-index: 10; /* 우선순위 높이기 */
+  transform: translate(-19%, 20%);
   }
-  #nft-image-container {
-    border-radius: 12px;
-    display: flex;
-    max-width: 100%;
-    width: 280px;
-    flex-direction: column;
-    overflow: hidden;
+
+.ninfo {
+  display: flex;
+  margin-top: 17px;
+  width: 100%;
+  flex-direction: column;
+  font-family: Pretendard, sans-serif;
+  justify-content: center;
+  padding: 0 8px;
   }
-  #nft-image-wrapper {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    aspect-ratio: 1;
-    width: 100%;
-    align-items: flex-end;
-    padding: 8px 28px 228px;
+
+.ntitle-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: start;
   }
-  #nft-image {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    object-position: center;
+
+.ntitle {
+  color: rgba(255, 255, 255, 1);
+  font-size: 16px;
+  font-weight: 600;
   }
+.ndescription {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  margin-top: 8px;
+}
+
   #collection-badge {
     aspect-ratio: 1;
     object-fit: contain;
