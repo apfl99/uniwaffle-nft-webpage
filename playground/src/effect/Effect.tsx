@@ -1,6 +1,6 @@
 import React from "react";
 import Player from "lottie-react"; // 필요에 따라 import
-import Card from "../modal/Card"; // Card 컴포넌트 경로
+import Card from "./Card"; // Card 컴포넌트 경로
 import animationData from "../animation/light.json";
 import "./Effect.css"
 
@@ -15,14 +15,14 @@ export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect}) => {
       {isEffectOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            {/* 첫 번째 이미지 */}
+            {/* 후광 이미지 */}
             <Player
               autoplay
               loop
               animationData={animationData} // 여기서 src 대신 animationData를 사용
               className="light-image"
             />
-            {/* 두 번째 이미지를 겹침 */}
+            {/* NFT 이미지 */}
             <Card />
             <button className="close-effect-button" onClick={closeEffect}>
               닫기

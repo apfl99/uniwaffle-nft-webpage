@@ -135,16 +135,16 @@ export const Connected: React.FC = () => {
 								<button onClick={openEffect}>금액확인</button>
 								<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect}/>
 
-								{/* 교환창 모달 */}
+								{/* 교환창 모달 버튼*/}
 								<button onClick={openModal}>Exchange Button</button>
 								waffleee NFT 데이터를 불러올 수 없습니다.
+								{/* 모달 컴포넌트 */}
+								<Modal isOpen={isModalOpen} onClose={closeModal} />
 							</div>
 
 						)}
 					</div>
 				</div>
-				{/* 모달 컴포넌트 */}
-				<Modal isOpen={isModalOpen} onClose={closeModal} />
 				<div id="summary-section">
 					<div id="total-amount">
 						<div id="amount-wrapper">

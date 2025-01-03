@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Player from "lottie-react";
 import animationData from "../animation/light.json";
-import Card from "../modal/Card"; // Card 컴포넌트 경로
 import "./Modal.css";
 
 interface ModalProps {
@@ -11,29 +10,29 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  const [isVisible, setIsVisible] = useState(true); // 애니메이션 상태
-  const [stage, setStage] = useState(1); // 애니메이션 단계 상태
+  const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
 
   const handleExchangeClick = () => {
-    setIsVisible(false); // 사라지는 애니메이션 트리거
+    setIsInactive(false); // 사라지는 애니메이션 트리거
     FirstCardAnimation();
     SecondCardAnimation();
   };
 
   const handleCloseTab = () => {
-    setIsVisible(true);
+    setIsInactive(true);
     onClose();
   };
 
+  // 왼쪽 NFT 이미지 애니메이션
   const FirstCardAnimation = async () => {
-    // 첫 번째 애니메이션 실행
+    // 첫 번째 애니메이션 실행(중앙 움직이기)
     await Firstcontrols.start({
       transform: "translateX(136.5%)",
       transition: { duration: 2 },
     });
-    // 두 번째 애니메이션 실행
+    // 두 번째 애니메이션 실행(사라지기)
     await Firstcontrols.start({
       opacity: 0,
       transition: { duration: 0.5 },
@@ -41,14 +40,14 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   };
 
 
-
+  // 오른쪽 카드 뒷면 이미지 애니메이션
   const SecondCardAnimation = async () => {
-    // 첫 번째 애니메이션 실행
+    // 첫 번째 애니메이션 실행(중앙 움직이기)
     await Secondcontrols.start({
       transform: "translateX(-147%)",
       transition: { duration: 2 },
     });
-    // 두 번째 애니메이션 실행
+    // 두 번째 애니메이션 실행(사라지기)
     await Secondcontrols.start({
       opacity: 0,
       transition: { duration: 2 },
@@ -72,18 +71,17 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         justifyContent: "center",
         zIndex: 1000,
       }}
-      animate={{backgroundColor: isVisible ?  "fffff": "#313233"}}
+      animate={{backgroundColor: isInactive ?  "fffff": "#313233"}}
     >
       
       <motion.div className="exchange-container"
         initial={{backgroundColor : "rgba(247, 250, 254, 1)"}}
-        animate={{backgroundColor : isVisible ? "#f7fafe" : "transparent"}}
+        animate={{backgroundColor : isInactive ? "#f7fafe" : "transparent"}}
         transition={{ duration: 1 }}
       >
         <div className="content-wrapper">
           <div className="card-container">
             <motion.div className="card"
-              key={stage}
               animate={Firstcontrols}
               transition={{ duration: 2 }}
             >
@@ -117,7 +115,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             </motion.div>
             <motion.div className="price-large"
               initial={{ opacity: 1 }} // 초기 상태
-              animate={{ opacity: isVisible ? 1 : 0 }} // 애니메이션 상태
+              animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
               transition={{ duration: 0.5 }}
             >
               1849 USHD
@@ -126,7 +124,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           
           <motion.div className="exchange-info"
             initial={{ opacity: 1 }} // 초기 상태
-            animate={{ opacity: isVisible ? 1 : 0 }} // 애니메이션 상태
+            animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
             transition={{ duration: 0.5 }}>
             <div className="info-text">
               <div className="main-text">
@@ -153,7 +151,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           {/* 후광 이미지 */}
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: isVisible ? 0 : 1 }}
+            animate={{ opacity: isInactive ? 0 : 1 }}
             transition={{ duration: 0.5 }}
             className="light-image2"
           >
@@ -167,7 +165,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
           <motion.div className="new-card-wrapper"
           initial={{opacity: 0}}
-          animate={{opacity: isVisible ? 0 : 1}}
+          animate={{opacity: isInactive ? 0 : 1}}
           transition={{ duration: 2, delay: 2 }}
           >
             {/* 새로 생성되는 카드 */}
@@ -220,7 +218,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             />
             <motion.div className="preview-price" 
               initial={{ opacity: 1 }} // 초기 상태
-              animate={{ opacity: isVisible ? 1 : 0 }} // 애니메이션 상태
+              animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
               transition={{ duration: 0.5 }}
               >
                 ??? USHD
