@@ -2,13 +2,37 @@ import React from 'react';
 import App from '../App.tsx'
 import '../index.css'
 import { SolanaContext } from '../SolanaContext.tsx'
-import Explain from '../event/explain.tsx'
+import Navbar from '../Navigator/Nav.tsx';
+import Event from '../event/event.tsx';
+import Gallery from '../event/gallery.tsx';
+import { Footer } from '../footer/Footer.tsx';
+import { MFooter} from '../mobile/footer/MFooter.tsx'
+import {useDeviceType} from '../useDeviceType.tsx'
+import MApp from '../mobile/MApp.tsx';
+
+
+const MobileComponent: React.FC = () => {
+    
+    return ( 
+        <MApp />
+    )
+
+}
 
 const WalletSection: React.FC = () => {
-    return (
+
+    const isMobile = useDeviceType();
+
+    return isMobile ? (
+         <MobileComponent />
+    ): (
         <SolanaContext>
-            <App />
-        </SolanaContext>    
+        <Navbar />
+        <Event />
+        <Gallery />
+        <App />
+        <Footer />
+        </SolanaContext>   
     );
 };
 
