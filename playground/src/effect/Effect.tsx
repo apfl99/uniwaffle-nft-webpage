@@ -7,9 +7,17 @@ import "./Effect.css"
 interface EffectProps {
   isEffectOpen: boolean;
   closeEffect: () => void;
+  nft: NFT;
 }
 
-export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect}) => {
+interface NFT {
+	image: string;
+	name: string;
+	description: string;
+	mint_address: string;
+}
+
+export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect, nft}) => {
   return (
     <div className="effect1-container">
       {isEffectOpen && (
@@ -23,7 +31,7 @@ export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect}) => {
               className="light-image"
             />
             {/* NFT 이미지 */}
-            <Card />
+            <Card nft={nft}/>
             <button className="close-effect-button" onClick={closeEffect}>
               닫기
             </button>

@@ -33,6 +33,7 @@ export const Connected: React.FC = () => {
 	
 	//// 이펙트창 컨트롤
 	const [isEffectOpen, setIsEffectOpen] = useState(false);
+	const [selected, setSelected] = useState(-1);
 
 	const openEffect = () => setIsEffectOpen(true);
 	const closeEffect = () => setIsEffectOpen(false);
@@ -113,27 +114,41 @@ export const Connected: React.FC = () => {
 					<div id="nft-card-wrapper">
 						{nftData && nftData.length > 0 ? (
 							nftData.map((nft, index) => (
-								<div key={index} id="nft-card">
-									<div id="nft-image-container">
-										<div id="nft-image-wrapper">
-											<img loading="lazy" src={nft.image} id="nft-image" />
+								<div className="ncard">
+							
+									<div className="nimage-container">
+										<div className="nimage-wrapper">
+										<img
+											loading="lazy"
+											src={nft.image}
+											className="nimage"
+											alt="artwork preview"
+										/>
+										<img
+											loading="lazy"
+											src="https://cdn.builder.io/api/v1/image/assets/TEMP/82f4316bb22998f33a8564a20eed1764eb429fd28d7d067059a1bc748945dd43?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
+											className="nprofile-image"
+											alt="User profile"
+										/>
 										</div>
 									</div>
-									<div id="nft-details">
-										<div id="nft-text">
-											<div id="nft-title">{nft.name}</div>
-											<div id="nft-description">{nft.description}</div>
+									<div className="ninfo">
+										<div className="ntitle-container">
+										<div className="ntitle">{nft.name}</div>
+										<div className="ndescription">
+											{nft.description}
+										</div>
 										</div>
 									</div>
-									<button id="exchange-btn" onClick={() => getPrizeAmount(address, nft.mint_address)}>교환 금액 확인</button>
-								</div>
+									<button id="exchange-btn" onClick={() => {
+										getPrizeAmount(address, nft.mint_address);
+										setSelected(index); //nft 배열 인덱스 
+										openEffect(); // Effect 창 open 
+									}}>USHD 수량 확인</button>
+									</div>
 							))
 						) : (
 							<div id="no-nft-message">
-
-								{/* 금액확인 버튼 클릭시 카드뽑기 이펙트 */}
-								<button onClick={openEffect}>금액확인</button>
-								<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect}/>
 
 								{/* 교환창 모달 버튼*/}
 								<button onClick={openModal}>Exchange Button</button>
@@ -145,6 +160,8 @@ export const Connected: React.FC = () => {
 						)}
 					</div>
 				</div>
+				{/* 교환금액 확인 이펙트 */}
+				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]}/>
 				<div id="summary-section">
 					<div id="total-amount">
 						<div id="amount-wrapper">
@@ -153,7 +170,7 @@ export const Connected: React.FC = () => {
 						</div>
 					</div>
 					<div id="retry-counter">
-						<div>오늘 재추첨 남은 횟수: 5</div>
+						<div>오늘 남은 교환 횟수: 5</div>
 					</div>
 				</div>
 			</div>
