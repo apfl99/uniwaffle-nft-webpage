@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import './connected.css';
-import { WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
+import { WalletConnectButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
 import axios from 'axios';
 import {Modal} from '../modal/Modal'
 import {Effect} from '../effect/Effect'
@@ -28,23 +28,40 @@ export const Connected: React.FC = () => {
 	//// 모달창 컨트롤
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const openModal = () => setIsModalOpen(true);
+	const openModal = (index: number) => {
+		setIsModalOpen(true);
+		setExchangeSelected(index);
+	};
 	const closeModal = () => setIsModalOpen(false);
 	
 	//// 이펙트창 컨트롤
 	const [isEffectOpen, setIsEffectOpen] = useState(false);
 	const [selected, setSelected] = useState(-1);
+	const [exchangeSelected, setExchangeSelected] = useState(-1);
+	const [check, setCheck] = useState<boolean[]>(Array(20).fill(false)); // 이펙트 확인여부 체크 배열(열어봤으면 금액 표시 + 교환하기 버튼 위해)
+
+	// 특정 인덱스 상태 업데이트 함수
+	const updateCheck = (index: number) => {
+		setCheck((prev) => {
+			const newArray = [...prev];
+			newArray[index] = true; // 변경된 원소
+			return newArray; // 새로운 참조 반환
+		});
+	};
 
 	const openEffect = () => setIsEffectOpen(true);
-	const closeEffect = () => setIsEffectOpen(false);
+	const closeEffect = () =>{
+		setIsEffectOpen(false);
+		updateCheck(selected); // 이펙트창 닫으면 check 업데이트
+	}
 	////
 
 	const { connected, publicKey } = useWallet();
 	const [loading, setLoading] = React.useState(false);
 
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
-	const address = publicKey?.toBase58() || '';
-	// const address = "Aer7qXzAax8UUWf4UKAsXaNVD4p6uMVTWeVbgWFLTSem";
+	// const address = publicKey?.toBase58() || '';
+	const address = "Aer7qXzAax8UUWf4UKAsXaNVD4p6uMVTWeVbgWFLTSem";
 
 	const fetchNFTData = async (address: string) => {
 		setLoading(true);
@@ -88,7 +105,95 @@ export const Connected: React.FC = () => {
 
 	if (connected) {
 		return (
-			<div id="nft-exchange-container">
+				<div id="nft-exchange-container">
+					<div className="wallet-container">
+					<div className="balance-wrapper">
+						<div className="balance-label">현재 지갑의 교환 금액 총합:</div>
+						<div className="balance-amount">0 USHD</div>
+					</div>
+					<div className="exchange-limit-wrapper">
+						<div className="exchange-limit-container">
+						<div className="exchange-limit-text">오늘 남은 교환 횟수: 3</div>
+						</div>
+					</div>
+				</div>
+				<div id="instructions">
+					<div id="primary-text">
+						연결된 계좌의 모든 NFT를 불러왔습니다.<br />
+						'USHD 수량 확인' 버튼을 눌러 USHD 수량을 확인하세요.
+					</div>
+					<div id="secondary-text">
+						NFT 1개가 보유할 수 있는 최대 수량은 1000 USHD입니다. 유저에 따라서 수량이 다르게 계산됩니다.<br />
+						수량이 마음에 안들면 '교환하기'버튼을 통해 다른 NFT로 교환할 수 있습니다. 교환은 하루 최대 3회만 가능합니다.
+					</div>
+				</div>
+				<div id="nft-display">
+					<div id="nft-card-wrapper">
+						{nftData && nftData.length > 0 ? (
+							nftData.map((nft, index) => (
+								<div className="ncard-container">
+									<div className="ncard">
+										<div className="nimage-container">
+											<div className="nimage-wrapper">
+											<img
+												loading="lazy"
+												src={nft.image}
+												className="nimage"
+												alt="artwork preview"
+											/>
+											<img
+												loading="lazy"
+												src="https://cdn.builder.io/api/v1/image/assets/TEMP/82f4316bb22998f33a8564a20eed1764eb429fd28d7d067059a1bc748945dd43?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
+												className="nprofile-image"
+												alt="User profile"
+											/>
+											</div>
+										</div>
+										<div className="ninfo">
+											<div className="ntitle-container">
+											<div className="ntitle">{nft.name}</div>
+											<div className="ndescription">
+												{nft.description}
+											</div>
+											</div>
+										</div>
+
+										
+										{check[index] ? 
+											(
+												<div className="price-container">
+													<div className="price-text">1849 USHD</div>
+												</div>
+											) 
+												: 
+											(
+												<button id="exchange-btn" onClick={() => {
+													getPrizeAmount(address, nft.mint_address);
+													setSelected(index); //nft 배열 인덱스 
+													openEffect(); // Effect 창 open 
+												}}>USHD 수량 확인</button>
+											)
+										}
+									</div>
+									{check[index] && 
+									(<button className="nclose-button" onClick={()=>openModal(index)}>
+										교환하기
+									</button>)
+									}
+								</div>
+
+							))
+						) : (
+							<div id="no-nft-message">
+								waffleee NFT 데이터를 불러올 수 없습니다.		
+							</div>
+
+						)}
+					</div>
+				</div>
+				{/* 교환금액 확인 이펙트 */}
+				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]}/>
+				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]}/>
 				<div id="wallet-connection">
 					<div id="wallet-status">
 						<div id="wallet-info">
@@ -98,79 +203,6 @@ export const Connected: React.FC = () => {
 							</div>
 							<WalletDisconnectButton />
 						</div>
-					</div>
-				</div>
-				<div id="instructions">
-					<div id="primary-text">
-						연결된 계좌의 모든 NFT를 불러왔습니다.<br />
-						'교환 금액 확인' 버튼을 눌러 USHD 수량을 확인하세요.
-					</div>
-					<div id="secondary-text">
-						NFT 1개가 보유할 수 있는 최대 수량은 3000 USHD입니다. 유저에 따라서 수량이 다르게 계산됩니다.<br />
-						수량이 마음에 안들면 재추첨을 통해 교환할 수 있습니다. 재추첨은 하루 최대 5회만 가능합니다.
-					</div>
-				</div>
-				<div id="nft-display">
-					<div id="nft-card-wrapper">
-						{nftData && nftData.length > 0 ? (
-							nftData.map((nft, index) => (
-								<div className="ncard">
-							
-									<div className="nimage-container">
-										<div className="nimage-wrapper">
-										<img
-											loading="lazy"
-											src={nft.image}
-											className="nimage"
-											alt="artwork preview"
-										/>
-										<img
-											loading="lazy"
-											src="https://cdn.builder.io/api/v1/image/assets/TEMP/82f4316bb22998f33a8564a20eed1764eb429fd28d7d067059a1bc748945dd43?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
-											className="nprofile-image"
-											alt="User profile"
-										/>
-										</div>
-									</div>
-									<div className="ninfo">
-										<div className="ntitle-container">
-										<div className="ntitle">{nft.name}</div>
-										<div className="ndescription">
-											{nft.description}
-										</div>
-										</div>
-									</div>
-									<button id="exchange-btn" onClick={() => {
-										getPrizeAmount(address, nft.mint_address);
-										setSelected(index); //nft 배열 인덱스 
-										openEffect(); // Effect 창 open 
-									}}>USHD 수량 확인</button>
-									</div>
-							))
-						) : (
-							<div id="no-nft-message">
-
-								{/* 교환창 모달 버튼*/}
-								<button onClick={openModal}>Exchange Button</button>
-								waffleee NFT 데이터를 불러올 수 없습니다.
-								{/* 모달 컴포넌트 */}
-								<Modal isOpen={isModalOpen} onClose={closeModal} />
-							</div>
-
-						)}
-					</div>
-				</div>
-				{/* 교환금액 확인 이펙트 */}
-				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]}/>
-				<div id="summary-section">
-					<div id="total-amount">
-						<div id="amount-wrapper">
-							<div id="amount-label">현재 지갑의 교환 금액 총합:</div>
-							<div id="amount-value">0 USHD</div>
-						</div>
-					</div>
-					<div id="retry-counter">
-						<div>오늘 남은 교환 횟수: 5</div>
 					</div>
 				</div>
 			</div>

@@ -7,9 +7,17 @@ import "./Modal.css";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  nft: NFT;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+interface NFT {
+	image: string;
+	name: string;
+	description: string;
+	mint_address: string;
+}
+
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
@@ -89,7 +97,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <div className="image-wrapper">
                   <img
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/de6380ad135d8dcbc54c9ac73b9dc8b6eeb05db1c14e516e5bf8f25283274a68?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
+                    src={nft.image}
                     className="image"
                     alt="artwork preview"
                   />
@@ -103,9 +111,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </div>
               <div className="info">
                 <div className="title-container">
-                  <div className="title">Uniwaffle Friends #192</div>
+                  <div className="title">{nft.name}</div>
                   <div className="description">
-                    A Collection of Uniwaffle 2025 Beta Test Commemoratives
+                    {nft.description}
                   </div>
                 </div>
               </div>
@@ -141,7 +149,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 교환하기
               </button>
               <button className="close-button" onClick={onClose}>
-                창 닫기
+                <u>창 닫기</u>
               </button>
             </div>
           </motion.div>

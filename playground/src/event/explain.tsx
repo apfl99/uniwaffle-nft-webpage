@@ -47,6 +47,7 @@ const Explain: React.FC = () => {
             <div id="step-indicator">Step 4</div>
             <div id="step-description">유니와플 앱을 열어서 아래의 QR 코드를 인식하거나 링크를 복사하여 수동으로 코드를 입력하세요.</div>
             <div id="step-subtitle">[유니와플 앱 &gt;  크립토 메인 &gt; 바로가기 메뉴 'WalletConnect']</div>
+            <div id="step-subtitle">모바일 접속 시, 링크를 복사하여 수동으로 코드를 입력하세요. [유니와플 앱 &gt;  크립토 메인 &gt; 바로가기 메뉴 'WalletConnect' &gt; '수동으로 코드 입력']</div>
           </div>
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/d8d695fd5fc618389f160667ed846cdc886739bb047000afd7265d850f6890a7?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8" id="qr-screenshot" alt="WalletConnect QR 코드 스크린샷" />
         </div>
