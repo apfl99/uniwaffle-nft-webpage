@@ -10,10 +10,10 @@ export const MFooter: React.FC = () => {
         <div className="footer-info">
           <div className="company-details">
             <div className="company-name">(주)엘티씨웨어</div>
-            <div><span className="bold-text">전화</span><span className="normal-text">02-2220-4016</span></div>
-            <div><span className="bold-text">이메일</span><span className="normal-text">uniwaffle@uniwaffle.com</span></div>
+            <div><span className="bold-text">전화 </span><span className="normal-text">02-2220-4016</span></div>
+            <div><span className="bold-text">이메일 </span><span className="normal-text">uniwaffle@uniwaffle.com</span></div>
             <div className="company-address">
-              <span className="bold-text">주소</span><span className="normal-text">서울특별시 성동구 왕십리로 222 한양대학교 IT/BT관 819호</span>
+              <span className="bold-text">주소 </span><span className="normal-text">서울특별시 성동구 왕십리로 222 한양대학교 IT/BT관 819호</span>
             </div>
           </div>
           <div className="copyright">Copyright © LTCware, Inc. All rights reserved.</div>
