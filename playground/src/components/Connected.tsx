@@ -51,8 +51,8 @@ export const Connected: React.FC = () => {
 	const [loading, setLoading] = React.useState(false);
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
 	const [sum, setSum] = useState(0);
-	// const address = publicKey?.toBase58() || '';
-	const address = "EfNiFGT8iJv4NEtQG5GsprhwFQze5Eaai7Dod3uq6pzZ";
+	const address = publicKey?.toBase58() || '';
+	// const address = "EfNiFGT8iJv4NEtQG5GsprhwFQze5Eaai7Dod3uq6pzZ";
 
 	const fetchNFTData = async (address: string) => {
 		setLoading(true);

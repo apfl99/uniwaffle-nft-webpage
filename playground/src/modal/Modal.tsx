@@ -21,6 +21,7 @@ interface NFT {
 	name: string;
 	description: string;
 	mint_address: string;
+  prize: number;
 }
 
 const MasterAddress = "Cb4Z8eRfdoPpojwfaownPhS86Z4TzukrSVLZfn6HLfDR"
@@ -48,14 +49,13 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
   const Secondcontrols = useAnimation();
   const { connection } = useConnection()
   const { publicKey, sendTransaction } = useWallet()
+  const [SignaturePending, setSignaturePending] = useState(false);
+  const [TransactionPending, setTransactionPending] = useState(false);
 
   const handleExchangeClick = async () => {
     // 교환 요청
     await SendNFTTransaction(nft.mint_address);
 
-    setIsInactive(false); // 사라지는 애니메이션 트리거
-    FirstCardAnimation();
-    SecondCardAnimation();
   };
 
   const SendNFTTransaction = async (mint_address: string) => {
@@ -87,7 +87,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
           recentBlockhash: blockhash,
       })
       const modifyComputeUnits = ComputeBudgetProgram.setComputeUnitLimit({
-        units: 50000,
+        units: 100000,
       });
       const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
           microLamports: 2000000,
@@ -129,15 +129,33 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
           )
       )
   
+      // 트랜 보내는데
+      setSignaturePending(true);
       signature = await sendTransaction(transaction, connection, { minContextSlot })
+
+      // 트랜잭션 실패시 실행 x
+      setSignaturePending(false); // 트랜잭션 성공시 시그니처 펜딩 끄기
+      setTransactionPending(true); // 트랜잭션 성공시 확인때까지 트랜잭션 펜딩 켜기
+
       const result = await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature })
       const mainnetText = document.getElementById('mainnet-text');
       if (mainnetText) {
         mainnetText.textContent = 'Transaction successful on mainnet!';
       }
+
+      setTransactionPending(false); // 성공시 트랜잭션 펜딩 끄기
       console.log('Transaction confirmed:', result)
+
+      // 성공시 애니메이션 실행
+      setIsInactive(false);
+      FirstCardAnimation();
+      SecondCardAnimation();
     } catch (error: unknown) {
+        alert("교환에 실패했습니다 다시 시도해주세요.")
         console.error(`Transaction failed! ${(error as Error)?.message}`)
+        setSignaturePending(false);
+        setTransactionPending(false);
+        // console.log("hahahha " + SignaturePending + " " + TransactionPending);
     }
   }
 
@@ -231,7 +249,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
                 </div>
               </div>
               <div className="price-container">
-                <div className="price-text">1849 USHD</div>
+                <div className="price-text">{nft.prize} USHD</div>
               </div>
             </motion.div>
             <motion.div className="price-large"
@@ -239,33 +257,69 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
               animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
               transition={{ duration: 0.5 }}
             >
-              1849 USHD
+              {nft.prize} USHD
             </motion.div>
           </div>
           
-          <motion.div className="exchange-info"
-            initial={{ opacity: 1 }} // 초기 상태
-            animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
-            transition={{ duration: 0.5 }}>
-            <div className="info-text">
-              <div className="main-text">
-                교환하려면
-                <br />
-                교환하기 버튼을 누르세요.
-              </div>
-              <div className="warning-text">
-                교환하면 이전으로 되돌릴 수 없습니다.
-              </div>
-            </div>
-            <div className="button-container">
-              <button className="exchange-button" onClick={handleExchangeClick}>
-                교환하기
-              </button>
-              <button className="close-button" onClick={onClose}>
-                <u>창 닫기</u>
-              </button>
-            </div>
-          </motion.div>
+              <motion.div className="exchange-info"
+                initial={{ opacity: 1 }} // 초기 상태
+                animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
+                transition={{ duration: 0.5 }}>
+                  
+                  {SignaturePending ? (
+                    <div className="info-text">
+                      <div className="main-text" style={{color: "red"}}>
+                        UniWaffle 어플리케이션에서
+                        <br />
+                        동의를 눌러주세요.
+                      </div>
+                      <div className="warning-text">
+                        교환하면 이전으로 되돌릴 수 없습니다.
+                      </div>
+                    </div>
+                  ) : (TransactionPending ? (
+
+                    <div className="info-text">
+                      <div className="main-text">
+                        교환중입니다.
+                        <br />
+                        교환에는 약 10초정도 소요될 수 있습니다.
+                      </div>
+                      <div className="warning-text">
+                        교환하면 이전으로 되돌릴 수 없습니다.
+                      </div>
+                    </div>
+                  ) : (
+
+                    <div className="info-text">
+                      <div className="main-text">
+                        교환하려면
+                        <br />
+                        교환하기 버튼을 누르세요.
+                      </div>
+                      <div className="warning-text">
+                        교환하면 이전으로 되돌릴 수 없습니다.
+                      </div>
+                    </div>
+                  ))}
+
+                <div className="button-container">
+
+                  {SignaturePending ? (
+                    <button className="exchange-button" style={{cursor: "not-allowed"}}>
+                      교환하기
+                    </button>
+                  ) : (
+                    <button className="exchange-button" onClick={handleExchangeClick}>
+                      교환하기
+                    </button>
+                  )}
+                  <button className="close-button" onClick={onClose}>
+                    <u>창 닫기</u>
+                  </button>
+                </div>
+              </motion.div>
+
 
 
 
@@ -316,7 +370,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
                 </div>
               </div>
               <div className="price-container">
-                <div className="price-text">1849 USHD</div>
+                <div className="price-text">1829 USHD</div>
               </div>
             </div>
             <button 
