@@ -12,6 +12,7 @@ interface NFT {
 	name: string;
 	description: string;
 	mint_address: string;
+  prize: number;
 }
 
 export const Card: React.FC<CardProps> = ({nft}) => {
@@ -44,7 +45,7 @@ export const Card: React.FC<CardProps> = ({nft}) => {
           </div>
         </div>
         <div className="nft-price-section">
-          <span className="effect-text">1849 USHD</span>
+          <span className="effect-text">{nft.prize} USHD</span>
           <Player
             autoplay
             loop={false}

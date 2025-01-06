@@ -11,16 +11,7 @@ interface NFT {
 	name: string;
 	description: string;
 	mint_address: string;
-}
-
-const getPrizeAmount = async (address: string, mint_address: string) => {	
-	try {
-		const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${mint_address}`);
-		const prizeAmount = response.data;
-		console.log('Prize amount:', prizeAmount);
-	} catch (error) {
-		console.error('Error fetching prize amount:', error);
-	}
+	prize: number;
 }
 
 export const Connected: React.FC = () => {
@@ -58,9 +49,10 @@ export const Connected: React.FC = () => {
 
 	const { connected, publicKey } = useWallet();
 	const [loading, setLoading] = React.useState(false);
-
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
-	const address = publicKey?.toBase58() || '';
+	const [sum, setSum] = useState(0);
+	// const address = publicKey?.toBase58() || '';
+	const address = "EfNiFGT8iJv4NEtQG5GsprhwFQze5Eaai7Dod3uq6pzZ";
 
 	const fetchNFTData = async (address: string) => {
 		setLoading(true);
@@ -73,6 +65,30 @@ export const Connected: React.FC = () => {
 			setLoading(false);
 		}
 	};
+
+	const getPrizeAmount = async (address: string, mint_address: string, index: number) => {	
+		try {
+			const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${mint_address}`);
+			const prizeAmount = response.data.data;
+
+			if (prizeAmount.value != null) {
+
+				nftData[index].prize = prizeAmount.value.prize;
+
+				// 가격 useState 업데이트
+				setNftData((prev)=>{
+					const newArray = [...prev];
+					newArray[index].prize = prizeAmount.value.prize; // 변경된 원소
+					return newArray; // 새로운 참조 반환
+					}
+				)
+				
+			}
+			console.log('Prize amount:', prizeAmount);
+		} catch (error) {
+			console.error('Error fetching prize amount:', error);
+		}
+	}
 
 	const saveMintAddressesToDB = async (nftData: NFT[]) => {
 		try {
@@ -88,6 +104,20 @@ export const Connected: React.FC = () => {
 		if (nftData.length > 0) {
 			saveMintAddressesToDB(nftData);
 		}
+
+	}, [nftData]);
+
+	React.useEffect(() => {
+		// nft 별로 가각 USHD 금액 가져오기 
+			if (nftData.length > 0) {
+
+				nftData.forEach((nft, index) => {
+					console.log("haha " + address + " "+ index +" " + nft.mint_address);
+					getPrizeAmount(address, nft.mint_address, index);
+				}
+			)
+		}
+
 	}, [nftData]);
 
 	React.useEffect(() => {
@@ -108,7 +138,7 @@ export const Connected: React.FC = () => {
 					<div className="wallet-container">
 					<div className="balance-wrapper">
 						<div className="balance-label">현재 지갑의 교환 금액 총합:</div>
-						<div className="balance-amount">0 USHD</div>
+						<div className="balance-amount">{sum} USHD</div>
 					</div>
 					<div className="exchange-limit-wrapper">
 						<div className="exchange-limit-container">
@@ -130,6 +160,7 @@ export const Connected: React.FC = () => {
 					<div id="nft-card-wrapper">
 						{nftData && nftData.length > 0 ? (
 							nftData.map((nft, index) => (
+								
 								<div className="ncard-container">
 									<div className="ncard">
 										<div className="nimage-container">
@@ -161,13 +192,13 @@ export const Connected: React.FC = () => {
 										{check[index] ? 
 											(
 												<div className="price-container">
-													<div className="price-text">1849 USHD</div>
+													<div className="price-text">{nft.prize} USHD</div>
 												</div>
 											) 
 												: 
 											(
 												<button id="exchange-btn" onClick={() => {
-													getPrizeAmount(address, nft.mint_address);
+													setSum(sum + nft.prize);
 													setSelected(index); //nft 배열 인덱스 
 													openEffect(); // Effect 창 open 
 												}}>USHD 수량 확인</button>
@@ -192,7 +223,7 @@ export const Connected: React.FC = () => {
 				</div>
 				{/* 교환금액 확인 이펙트 */}
 				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]}/>
-				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]}/>
+				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} />
 				<div id="wallet-connection">
 					<div id="wallet-status">
 						<div id="wallet-info">

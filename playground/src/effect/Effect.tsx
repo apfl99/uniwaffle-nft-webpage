@@ -14,7 +14,8 @@ interface NFT {
 	image: string;
 	name: string;
 	description: string;
-	mint_address: string;
+  mint_address: string;
+  prize: number;
 }
 
 export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect, nft}) => {
