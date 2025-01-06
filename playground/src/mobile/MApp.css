@@ -245,3 +245,192 @@ font-weight: 400;
     margin-top: 40px;
 }
 }
+
+
+
+.nft-exchange-container3 {
+    background-color: rgba(247, 250, 254, 1);
+    display: flex;
+    max-width: 90vw;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 60px 20px;
+    }
+.exchange-wrapper3 {
+display: flex;
+width: 100%;
+flex-direction: column;
+justify-content: start;
+}
+.header-content3 {
+display: flex;
+width: 100%;
+flex-direction: column;
+font-family: Pretendard, sans-serif;
+text-align: center;
+justify-content: center;
+}
+.header-title3 {
+color: rgba(0, 0, 0, 1);
+font-size: 18px;
+font-weight: 600;
+line-height: 28px;
+}
+.header-warning3 {
+color: rgba(255, 23, 23, 0.85);
+font-size: 12px;
+font-weight: 500;
+line-height: 18px;
+align-self: center;
+margin-top: 20px;
+}
+.nft-card-section3 {
+display: flex;
+margin-top: 60px;
+width: 100%;
+flex-direction: column;
+justify-content: center;
+}
+.nft-card3 {
+margin-top: 20px;
+border-radius: 24px;
+display: flex;
+width: 100%;
+flex-direction: column;
+justify-content: center;
+}
+.image-container3 {
+border-radius: 12px;
+align-self: center;
+display: flex;
+width: 204px;
+max-width: 100%;
+flex-direction: column;
+overflow: hidden;
+aspect-ratio: 1; /* 정사각형 비율 유지 */
+position: relative;
+}
+.image-wrapper3 {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    aspect-ratio: 1; /* 유지 */
+    width: 100% !important;
+    align-items: center; /* 중앙 정렬 */
+    padding: 0; /* 패딩 제거 */
+    overflow: visible !important; /* 자식 요소가 잘리지 않도록 설정 */
+    max-width: none !important; /* 크기 제한 해제 */
+}
+.nft-image3 {
+position: absolute;
+inset: 0;
+height: 100%;
+width: 100%;
+object-fit: contain;
+object-position: center;
+}
+.profile-image3 {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 37px;
+    border-radius: 100px;
+    margin-bottom: -46px;
+    position: relative; /* z-index가 동작하도록 설정 */
+    z-index: 10; /* 우선순위 높이기 */
+    transform: translate(210%, 25%); /* 정확히 세로 중앙 정렬 */
+}
+.nft-info3 {
+display: flex;
+margin-top: 17px;
+width: 100%;
+flex-direction: column;
+font-family: Pretendard, sans-serif;
+text-align: center;
+justify-content: center;
+padding: 0 8px;
+}
+.info-content3 {
+display: flex;
+width: 100%;
+flex-direction: column;
+justify-content: center;
+}
+.nft-title3 {
+color: rgba(0, 0, 0, 1);
+font-size: 16px;
+font-weight: 600;
+}
+.nft-description3 {
+color: rgba(0, 0, 0, 0.45);
+font-size: 12px;
+font-weight: 400;
+line-height: 16px;
+margin-top: 8px;
+}
+.nft-price3 {
+color: rgba(60, 132, 255, 1);
+font-size: 18px;
+font-weight: 700;
+margin-top: 8px;
+}
+.total-amount3 {
+border-color: rgba(0, 0, 0, 0.2);
+border-top: 1px solid rgba(0, 0, 0, 0.2);
+border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* 아래쪽 테두리 */
+display: flex;
+margin-top: 60px;
+width: 100%;
+align-items: center;
+gap: 8px;
+font-family: Pretendard, sans-serif;
+color: rgba(0, 0, 0, 1);
+text-align: center;
+justify-content: center;
+padding: 20px 0;
+}
+
+
+.amount-wrapper3 {
+align-self: stretch;
+display: flex;
+min-width: 240px;
+width: 100%;
+flex-direction: column;
+justify-content: center;
+flex: 1;
+flex-basis: 0%;
+margin: auto 0;
+}
+.amount-label3 {
+font-size: 14px;
+font-weight: 600;
+align-self: center;
+}
+.amount-value3 {
+font-size: 32px;
+font-weight: 700;
+margin-top: 4px;
+}
+.back-button3 {
+border-radius: 4px;
+background-color: rgba(60, 132, 255, 1);
+align-self: center;
+display: flex;
+margin-top: 60px;
+align-items: center;
+gap: 12px;
+color: rgba(255, 255, 255, 1);
+text-align: center;
+justify-content: center;
+padding: 14px 20px;
+font: 700 14px/1 Pretendard, sans-serif;
+cursor: pointer;
+}
+.button-text3 {
+align-self: stretch;
+gap: 12px;
+margin: auto 0;
+}
