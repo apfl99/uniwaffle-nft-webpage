@@ -31,6 +31,7 @@ export const Connected: React.FC = () => {
 	const [exchangeSelected, setExchangeSelected] = useState(-1);
 	const [check, setCheck] = useState<boolean[]>(Array(20).fill(false)); // 이펙트 확인여부 체크 배열(열어봤으면 금액 표시 + 교환하기 버튼 위해)
 
+
 	// 특정 인덱스 상태 업데이트 함수
 	const updateCheck = (index: number) => {
 		setCheck((prev) => {
@@ -72,17 +73,9 @@ export const Connected: React.FC = () => {
 			const prizeAmount = response.data.data;
 
 			if (prizeAmount.value != null) {
-
 				nftData[index].prize = prizeAmount.value.prize;
-
-				// 가격 useState 업데이트
-				setNftData((prev)=>{
-					const newArray = [...prev];
-					newArray[index].prize = prizeAmount.value.prize; // 변경된 원소
-					return newArray; // 새로운 참조 반환
-					}
-				)
-				
+			} else {
+				nftData[index].prize = 0;
 			}
 			console.log('Prize amount:', prizeAmount);
 		} catch (error) {
