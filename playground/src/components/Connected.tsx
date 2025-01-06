@@ -60,15 +60,13 @@ export const Connected: React.FC = () => {
 	const [loading, setLoading] = React.useState(false);
 
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
-	// const address = publicKey?.toBase58() || '';
-	const address = "Aer7qXzAax8UUWf4UKAsXaNVD4p6uMVTWeVbgWFLTSem";
+	const address = publicKey?.toBase58() || '';
 
 	const fetchNFTData = async (address: string) => {
 		setLoading(true);
 		try {
 			const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTData?address=${address}`);
 			setNftData(response.data.data.value.nft_data);
-			console.log(response.data.data.value.nft_data);
 		} catch (error) {
 			console.error('Error fetching NFT data:', error);
 		} finally {
@@ -97,6 +95,7 @@ export const Connected: React.FC = () => {
 			fetchNFTData(address);
 		}
 		console.log('Component has loaded');
+		
 	}, [address]);
 
 	if (loading) {

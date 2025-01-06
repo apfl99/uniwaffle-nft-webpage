@@ -3,6 +3,12 @@ import { motion, useAnimation } from "framer-motion";
 import Player from "lottie-react";
 import animationData from "../animation/light.json";
 import "./Modal.css";
+// NFT 교환
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
+import type { Connection, TransactionSignature } from '@solana/web3.js'
+import { Transaction, TransactionInstruction, Keypair, PublicKey, AccountMeta, ComputeBudgetProgram } from '@solana/web3.js'
+import { createAssociatedTokenAccountInstruction, createTransferCheckedInstruction, getAccount, getAssociatedTokenAddressSync, getAssociatedTokenAddress } from '@solana/spl-token'
+
 
 interface ModalProps {
   isOpen: boolean;
@@ -17,16 +23,123 @@ interface NFT {
 	mint_address: string;
 }
 
+const MasterAddress = "Cb4Z8eRfdoPpojwfaownPhS86Z4TzukrSVLZfn6HLfDR"
+
+const getATA = async (mint_address: string, from_address: PublicKey) => {
+    // Convert input addresses to PublicKey
+    const fromPublicKey = new PublicKey(from_address);
+    const mintPublicKey = new PublicKey(mint_address);
+  
+    // Get the associated token address
+    const ata = await getAssociatedTokenAddress(
+      mintPublicKey, // The mint address of the token
+      fromPublicKey, // The owner's wallet address
+      false // Set to true if the mint is a non-fungible token (NFT)
+    );
+  
+    return ata.toBase58();
+}
+
+
+
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
+  const { connection } = useConnection()
+  const { publicKey, sendTransaction } = useWallet()
 
-  const handleExchangeClick = () => {
+  const handleExchangeClick = async () => {
+    // 교환 요청
+    await SendNFTTransaction(nft.mint_address);
+
     setIsInactive(false); // 사라지는 애니메이션 트리거
     FirstCardAnimation();
     SecondCardAnimation();
   };
+
+  const SendNFTTransaction = async (mint_address: string) => {
+    try {
+      let signature: TransactionSignature | undefined = undefined
+      if (!publicKey) throw new Error('Wallet not connected!')
+      let account
+      // contract address
+      let mint = new PublicKey(mint_address)
+      // from solana address
+      let fromWallet = new PublicKey(publicKey.toBase58())
+      // from token address
+      let ata = await getATA(mint_address, fromWallet)
+      let fromATA = new PublicKey(ata)
+      // to solana address
+      let toWallet = new PublicKey(MasterAddress)
+  
+      const associatedToken = getAssociatedTokenAddressSync(
+          mint,
+          toWallet,
+      );
+      const {
+          context: { slot: minContextSlot },
+          value: { blockhash, lastValidBlockHeight },
+      } = await connection.getLatestBlockhashAndContext()
+  
+      const transaction = new Transaction({
+          feePayer: publicKey,
+          recentBlockhash: blockhash,
+      })
+      const modifyComputeUnits = ComputeBudgetProgram.setComputeUnitLimit({
+        units: 50000,
+      });
+      const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+          microLamports: 2000000,
+      });
+
+      transaction.add(modifyComputeUnits);
+      transaction.add(addPriorityFee);
+      try {
+        account = await getAccount(connection, associatedToken);
+      } catch (error: unknown) {
+        // if no associated token account exists at to solana address, create it
+        try {
+          transaction.add(
+              createAssociatedTokenAccountInstruction(
+                  publicKey,
+                  associatedToken,
+                  toWallet,
+                  mint,
+              ),
+          );
+        } catch (error: unknown) {
+          // Ignore all errors; for now there is no API-compatible way to selectively ignore the expected
+          // instruction error if the associated account exists already.
+          console.log(error)
+        }
+  
+        // Now this should always succeed
+        account = await getAccount(connection, associatedToken);
+      }
+  
+      transaction.add(
+          createTransferCheckedInstruction(
+              fromATA,
+              mint,
+              account.address,
+              fromWallet,
+              1,
+              0
+          )
+      )
+  
+      signature = await sendTransaction(transaction, connection, { minContextSlot })
+      const result = await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature })
+      const mainnetText = document.getElementById('mainnet-text');
+      if (mainnetText) {
+        mainnetText.textContent = 'Transaction successful on mainnet!';
+      }
+      console.log('Transaction confirmed:', result)
+    } catch (error: unknown) {
+        console.error(`Transaction failed! ${(error as Error)?.message}`)
+    }
+  }
 
   const handleCloseTab = () => {
     setIsInactive(true);
