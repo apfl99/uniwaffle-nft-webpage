@@ -151,17 +151,10 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
       FirstCardAnimation();
       SecondCardAnimation();
 
-      // 성공시 애니메이션 실행
-      setIsInactive(false);
-      FirstCardAnimation();
-      SecondCardAnimation();
+  
     } catch (error: unknown) {
         alert("교환에 실패했습니다 다시 시도해주세요.")
-        alert("교환에 실패했습니다 다시 시도해주세요.")
         console.error(`Transaction failed! ${(error as Error)?.message}`)
-        setSignaturePending(false);
-        setTransactionPending(false);
-        // console.log("hahahha " + SignaturePending + " " + TransactionPending);
         setSignaturePending(false);
         setTransactionPending(false);
         // console.log("hahahha " + SignaturePending + " " + TransactionPending);
@@ -259,7 +252,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
               </div>
               <div className="price-container">
                 <div className="price-text">{nft.prize} USHD</div>
-                <div className="price-text">{nft.prize} USHD</div>
               </div>
             </motion.div>
             <motion.div className="price-large"
@@ -267,7 +259,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
               animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
               transition={{ duration: 0.5 }}
             >
-              {nft.prize} USHD
               {nft.prize} USHD
             </motion.div>
           </div>
@@ -381,7 +372,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
                 </div>
               </div>
               <div className="price-container">
-                <div className="price-text">1829 USHD</div>
                 <div className="price-text">1829 USHD</div>
               </div>
             </div>
