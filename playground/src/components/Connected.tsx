@@ -53,7 +53,7 @@ export const Connected: React.FC = () => {
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
 	const [sum, setSum] = useState(0);
 	const address = publicKey?.toBase58() || '';
-	// const address = "EfNiFGT8iJv4NEtQG5GsprhwFQze5Eaai7Dod3uq6pzZ";
+	const [chance , setChance] = useState(0);
 
 	const fetchNFTData = async (address: string) => {
 		setLoading(true);
@@ -77,33 +77,29 @@ export const Connected: React.FC = () => {
 			} else {
 				nftData[index].prize = 0;
 			}
-			console.log('Prize amount:', prizeAmount);
+
 		} catch (error) {
 			console.error('Error fetching prize amount:', error);
 		}
 	}
 
-	const saveMintAddressesToDB = async (nftData: NFT[]) => {
-		try {
-			const mintAddresses = nftData.map(nft => nft.mint_address);
-			await axios.post('https://your-web-db-endpoint.com/saveMintAddresses', { mintAddresses });
-			console.log('Mint addresses saved to DB');
-		} catch (error) {
-			console.error('Error saving mint addresses to DB:', error);
-		}
-	};
-
 	React.useEffect(() => {
-		if (nftData.length > 0) {
-			saveMintAddressesToDB(nftData);
+		const getChance = async (address : string) => {
+			try {
+				const response = await axios.get(`https://ums.ltcwareko.com/getRemainingChance?address=${address}`);
+				setChance(response.data.data.chance);
+			} catch (error) {
+				console.error('Error fetching exchange chance:', error);
+			}
 		}
-
-	}, [nftData]);
+		if (address) {
+			getChance(address);
+		}
+	}, [address, chance]);	
 
 	React.useEffect(() => {
 		// nft 별로 가각 USHD 금액 가져오기 
 			if (nftData.length > 0) {
-
 				nftData.forEach((nft, index) => {
 					console.log("haha " + address + " "+ index +" " + nft.mint_address);
 					getPrizeAmount(address, nft.mint_address, index);
@@ -135,7 +131,7 @@ export const Connected: React.FC = () => {
 					</div>
 					<div className="exchange-limit-wrapper">
 						<div className="exchange-limit-container">
-						<div className="exchange-limit-text">오늘 남은 교환 횟수: 3</div>
+						<div className="exchange-limit-text">오늘 남은 교환 횟수: {chance}</div>
 						</div>
 					</div>
 				</div>
@@ -216,7 +212,7 @@ export const Connected: React.FC = () => {
 				</div>
 				{/* 교환금액 확인 이펙트 */}
 				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]}/>
-				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} />
+				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} onChange={(value) => setChance(value)} />
 				<div id="wallet-connection">
 					<div id="wallet-status">
 						<div id="wallet-info">

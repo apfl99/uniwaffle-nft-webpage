@@ -14,6 +14,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   nft: NFT;
+  onChange: (value: number) => void;
 }
 
 interface NFT {
@@ -41,9 +42,18 @@ const getATA = async (mint_address: string, from_address: PublicKey) => {
     return ata.toBase58();
 }
 
+const decreaseChance = (address: string) => {
+  var result = 0;
+  fetch(`https://ums.ltcwareko.com/decreaseChance?address=${address}`)
+    .then((response) => response.json())
+    .then((data) => {
+      result = data.data[0].chance;    
+    });
+  return result;
+}
 
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, onChange }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
@@ -138,26 +148,22 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft }) => {
       setTransactionPending(true); // 트랜잭션 성공시 확인때까지 트랜잭션 펜딩 켜기
 
       const result = await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature })
-      const mainnetText = document.getElementById('mainnet-text');
-      if (mainnetText) {
-        mainnetText.textContent = 'Transaction successful on mainnet!';
-      }
-
-      setTransactionPending(false); // 성공시 트랜잭션 펜딩 끄기
       console.log('Transaction confirmed:', result)
+      setTransactionPending(false); // 성공시 트랜잭션 펜딩 끄기
 
       // 성공시 애니메이션 실행
       setIsInactive(false);
       FirstCardAnimation();
       SecondCardAnimation();
 
-  
+      // 교환 횟수 차감
+      const decreasedChance = decreaseChance(publicKey.toBase58());
+      onChange(decreasedChance);
     } catch (error: unknown) {
         alert("교환에 실패했습니다 다시 시도해주세요.")
         console.error(`Transaction failed! ${(error as Error)?.message}`)
         setSignaturePending(false);
-        setTransactionPending(false);
-        // console.log("hahahha " + SignaturePending + " " + TransactionPending);
+        setTransactionPending(false)
     }
   }
 
