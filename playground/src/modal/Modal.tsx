@@ -178,7 +178,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft,prize, onChan
   const FirstCardAnimation = async () => {
     // 첫 번째 애니메이션 실행(중앙 움직이기)
     await Firstcontrols.start({
-      transform: "translateX(136.5%)",
+      transform: "translateX(152%)",
       transition: { duration: 2 },
     });
     // 두 번째 애니메이션 실행(사라지기)
@@ -355,7 +355,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft,prize, onChan
           >
             {/* 새로 생성되는 카드 */}
             <div className="card">
-              <div className="image-container">
+              <div className="image-container" style={{marginTop: "7px"}}>
                 <div className="image-wrapper">
                   <img
                     loading="lazy"

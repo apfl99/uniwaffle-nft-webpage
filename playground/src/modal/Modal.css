@@ -44,9 +44,11 @@ margin: auto 0;
 .image-container {
     border-radius: 12px;
     display: flex;
-    width: 100%;
+    width: 96%;
     flex-direction: column;
     overflow: hidden;
+    margin: 0 auto;
+    margin-top: 4px;
 }
 
 .image-wrapper {
@@ -65,7 +67,7 @@ border-radius: 24px;
 background-color: rgba(29, 29, 32, 1);
 box-shadow: 0px 7px 17px rgba(20, 37, 62, 0.25);
 display: flex;
-width: 100%;
+width: 90%;
 max-width: 304px;
 flex-direction: column;
 justify-content: center;
@@ -327,7 +329,7 @@ margin-top: 40px;
     position: absolute; /* 부모가 relative 또는 fixed여야 작동 */
     top: 48%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 정확한 중앙 배치 */
+    transform: translate(-49%, -53%); /* 정확한 중앙 배치 */
     display: flex;
     align-items: center;
     justify-content: center;
