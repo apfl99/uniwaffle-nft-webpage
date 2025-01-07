@@ -8,7 +8,16 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import type { Connection, TransactionSignature } from '@solana/web3.js'
 import { Transaction, TransactionInstruction, Keypair, PublicKey, AccountMeta, ComputeBudgetProgram } from '@solana/web3.js'
 import { createAssociatedTokenAccountInstruction, createTransferCheckedInstruction, getAccount, getAssociatedTokenAddressSync, getAssociatedTokenAddress } from '@solana/spl-token'
+import axios from 'axios';
 
+interface NFT {
+	image: string;
+	name: string;
+	description: string;
+	mint_address: string;
+	prize: number;
+	owner: string;
+}
 
 interface ModalProps {
   isOpen: boolean;
@@ -16,14 +25,9 @@ interface ModalProps {
   nft: NFT;
   prize: number;
   onChange: (value: number) => void;
+  onChangeNFTData: (value: NFT[]) => void;  
 }
 
-interface NFT {
-	image: string;
-	name: string;
-	description: string;
-	mint_address: string;
-}
 
 const MasterAddress = "Cb4Z8eRfdoPpojwfaownPhS86Z4TzukrSVLZfn6HLfDR"
 
@@ -53,7 +57,7 @@ const decreaseChance = (address: string) => {
 }
 
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft,prize, onChange }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onChange, onChangeNFTData }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
@@ -147,8 +151,45 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft,prize, onChan
       setSignaturePending(false); // 트랜잭션 성공시 시그니처 펜딩 끄기
       setTransactionPending(true); // 트랜잭션 성공시 확인때까지 트랜잭션 펜딩 켜기
 
-      const result = await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature })
-      console.log('Transaction confirmed:', result)
+      try {
+        const result = await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature });
+        console.log('Transaction confirmed:', result);
+      } catch (error: unknown) {
+        console.log(`Transaction confirmed! ${(error as Error)?.message}`);
+      }
+      
+      // 1초마다 NFT 조회
+      let attempts = 0;
+      const maxAttempts = 10;
+      const address = publicKey.toBase58();
+      while (attempts < maxAttempts) {
+        try {
+          const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTData?address=${address}`);
+          const nft_data = response.data.data.value.nft_data;
+          console.log('NFT data:', nft_data);
+          let isFound = false;
+          for (let i = 0; i < nft_data.length; i++) {
+            if (nft_data[i].mint_address === mint_address) {
+              isFound = true;
+              break;
+            }
+          }
+          if (!isFound) {
+            onChangeNFTData(nft_data);
+            break; 
+          }
+
+          attempts++;
+          await new Promise(resolve => setTimeout(resolve, 1000)); 
+        } catch (error) {
+          console.error('Error fetching NFT data:', error);
+        }
+      }
+      // 실패시 에러
+      if (attempts === maxAttempts) {
+        throw new Error('Failed to fetch NFT data');
+      }
+
       setTransactionPending(false); // 성공시 트랜잭션 펜딩 끄기
 
       // 성공시 애니메이션 실행

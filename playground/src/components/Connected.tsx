@@ -12,6 +12,7 @@ interface NFT {
 	description: string;
 	mint_address: string;
 	prize: number;
+	owner: string;
 }
 
 export const Connected: React.FC = () => {
@@ -87,7 +88,6 @@ export const Connected: React.FC = () => {
 				// 	return newArray; // 새로운 참조 반환
 				// });
 			}
-			console.log(prizeAmount)
 
 		} catch (error) {
 			console.error('Error fetching prize amount:', error);
@@ -112,7 +112,6 @@ export const Connected: React.FC = () => {
 		// nft 별로 가각 USHD 금액 가져오기 
 			if (nftData.length > 0) {
 				nftData.forEach((nft, index) => {
-					// console.log("haha " + address + " "+ index +" " + nft.mint_address);
 					getPrizeAmount(address, nft.mint_address, index);
 				}
 			)
@@ -221,9 +220,8 @@ export const Connected: React.FC = () => {
 						)}
 					</div>
 				</div>
-				{/* 교환금액 확인 이펙트 */}
 				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]} prize={prize[selected]}/>
-				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} prize={prize[exchangeSelected]} onChange={(value) => setChance(value)} />
+				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} prize={prize[exchangeSelected]} onChange={(value: number) => setChance(value)} onChangeNFTData={(value: NFT[]) => setNftData(value)}/>
 				<div id="wallet-connection">
 					<div id="wallet-status">
 						<div id="wallet-info">
