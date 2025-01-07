@@ -27,6 +27,7 @@ interface ModalProps {
   prize: number;
   onChange: (value: number) => void;
   onChangeNFTData: (value: NFT[]) => void;  
+  originNFTData: NFT[];
 }
 
 
@@ -58,7 +59,7 @@ const decreaseChance = (address: string) => {
 }
 
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onChange, onChangeNFTData }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onChange, onChangeNFTData, originNFTData }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
@@ -66,6 +67,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
   const { publicKey, sendTransaction } = useWallet()
   const [SignaturePending, setSignaturePending] = useState(false);
   const [TransactionPending, setTransactionPending] = useState(false);
+  const [updatedNFT, setUpdatedNFT] = useState<NFT>({image: "", name: "", description: "", mint_address: "", prize: 0, owner: ""});
 
   const handleExchangeClick = async () => {
     // 교환 요청
@@ -160,24 +162,21 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
       }
       
       // 1초마다 NFT 조회
-      console.log('Checking NFT data...');
       let attempts = 0;
-      const maxAttempts = 10;
+      const maxAttempts = 60;
       const address = publicKey.toBase58();
       while (attempts < maxAttempts) {
         try {
           const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTData?address=${address}`);
-          const nft_data = response.data.data.value.nft_data;
-          let isFound = false;
-          for (let i = 0; i < nft_data.length; i++) {
-            if (nft_data[i].mint_address === mint_address) {
-              isFound = true;
-              break;
-            }
-          }
-          if (!isFound) {
-            onChangeNFTData(nft_data);
-            break; 
+          const newNFTData = response.data.data.value.nft_data;
+          const updatedNFTData = newNFTData.filter((newNFT: NFT) => 
+            !originNFTData.some((originNFT: NFT) => originNFT.mint_address === newNFT.mint_address)
+          );
+          console.log('Updated NFT data:', updatedNFTData);
+          if (updatedNFTData.length > 0) {
+            setUpdatedNFT(updatedNFTData[0]);
+            onChangeNFTData(updatedNFTData);
+            break;
           }
 
           attempts++;
@@ -203,7 +202,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
       onChange(decreasedChance);
     } catch (error: unknown) {
         alert("교환에 실패했습니다 다시 시도해주세요.")
-        console.error(`Transaction failed! ${(error as Error)?.message}`)
         setSignaturePending(false);
         setTransactionPending(false)
     }
@@ -361,20 +359,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
                           교환하면 이전으로 되돌릴 수 없습니다.
                         </div>
                       </div>
-                      // <div className="exchange-status">
-                      //   <Player 
-                      //     autoplay
-                      //     loop={true}
-                      //     animationData={loading}
-                      //     className="status-icon">
-                      //   </Player>
-                      //   <div className="status-message">
-                      //     <div className="status-title">교환을 진행하고 있습니다</div>
-                      //     <div className="status-description">
-                      //       최대 3분 정도 소요될 수 있습니다. 잠시만 기다려주세요.
-                      //     </div>
-                      //   </div>
-                      // </div>
                     )
 
                   )}
@@ -442,14 +426,14 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
               </div>
               <div className="info">
                 <div className="title-container">
-                  <div className="title">Uniwaffle Friends #192</div>
+                  <div className="title">{updatedNFT.name}</div>
                   <div className="description">
-                    A Collection of Uniwaffle 2025 Beta Test Commemoratives
+                    {updatedNFT.description}
                   </div>
                 </div>
               </div>
               <div className="price-container">
-                <div className="price-text">1829 USHD</div>
+                <div className="price-text">??? USHD</div>
               </div>
             </div>
             <button 

@@ -48,10 +48,9 @@ export const Connected: React.FC = () => {
 		setIsEffectOpen(false);
 		updateCheck(selected); // 이펙트창 닫으면 check 업데이트
 	}
-	////
+
 
 	const { connected, publicKey } = useWallet();
-	const [loading, setLoading] = React.useState(false);
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
 	const [prize, setPrize] = useState(Array(20).fill(0));
 	const [sum, setSum] = useState(0);
@@ -60,15 +59,12 @@ export const Connected: React.FC = () => {
 	const [exchangeDisabled, setExchangeDisabled] = useState(false);
 
 	const fetchNFTData = async (address: string) => {
-		setLoading(true);
 		try {
 			const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTData?address=${address}`);
 			setNftData(response.data.data.value.nft_data);
 		} catch (error) {
 			console.error('Error fetching NFT data:', error);
-		} finally {
-			setLoading(false);
-		}
+		} 
 	};
 
 	const getPrizeAmount = async (address: string, mint_address: string, index: number) => {	
@@ -128,13 +124,9 @@ export const Connected: React.FC = () => {
 		if (address) {
 			fetchNFTData(address);
 		}
-		console.log('Component has loaded');
 		
 	}, [address]);
 
-	if (loading) {
-		console.log('Loading NFT data...');
-	}
 
 	if (connected) {
 		return (
@@ -226,7 +218,7 @@ export const Connected: React.FC = () => {
 					</div>
 				</div>
 				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]} prize={prize[selected]}/>
-				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} prize={prize[exchangeSelected]} onChange={(value: number) => setChance(value)} onChangeNFTData={(value: NFT[]) => setNftData(value)}/>
+				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} prize={prize[exchangeSelected]} onChange={(value: number) => setChance(value)} onChangeNFTData={(value: NFT[]) => setNftData(value)} originNFTData={nftData}/>
 				<div id="wallet-connection">
 					<div id="wallet-status">
 						<div id="wallet-info">
