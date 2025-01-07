@@ -335,3 +335,42 @@ margin-top: 40px;
     justify-content: center;
     z-index: 500;
   }
+
+  .exchange-status {
+    align-self: stretch;
+    display: flex;
+    min-width: 240px;
+    flex-direction: column;
+    font-family: Pretendard, sans-serif;
+    text-align: center;
+    justify-content: center;
+    flex: 1;
+    flex-basis: 0%;
+    margin: auto 0;
+  }
+  .status-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 200px;
+    align-self: center;
+    max-width: 100%;
+  }
+  .status-message {
+    display: flex;
+    margin-top: 60px;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .status-title {
+    color: rgba(0, 0, 0, 1);
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .status-description {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 20px;
+  }

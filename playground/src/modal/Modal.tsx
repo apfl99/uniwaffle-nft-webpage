@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, useAnimation } from "framer-motion";
 import Player from "lottie-react";
 import animationData from "../animation/light.json";
+import loading from "../animation/loading.json"
 import "./Modal.css";
 // NFT 교환
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
@@ -276,58 +277,85 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft,prize, onChan
                 animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
                 transition={{ duration: 0.5 }}>
                   
-                  {SignaturePending ? (
-                    <div className="info-text">
-                      <div className="main-text" style={{color: "red"}}>
-                        UniWaffle 어플리케이션에서
-                        <br />
-                        동의를 눌러주세요.
-                      </div>
-                      <div className="warning-text">
-                        교환하면 이전으로 되돌릴 수 없습니다.
-                      </div>
-                    </div>
-                  ) : (TransactionPending ? (
+                  {TransactionPending ? (
 
-                    <div className="info-text">
-                      <div className="main-text">
-                        교환중입니다.
-                        <br />
-                        교환에는 약 10초정도 소요될 수 있습니다.
-                      </div>
-                      <div className="warning-text">
-                        교환하면 이전으로 되돌릴 수 없습니다.
+                    <div className="exchange-status">
+                      <Player 
+                        autoplay
+                        loop={true}
+                        animationData={loading}
+                        className="status-icon">
+                      </Player>
+                      <div className="status-message">
+                        <div className="status-title">교환을 진행하고 있습니다</div>
+                        <div className="status-description">
+                          최대 3분 정도 소요될 수 있습니다. 잠시만 기다려주세요.
+                        </div>
                       </div>
                     </div>
+
+
                   ) : (
-
-                    <div className="info-text">
-                      <div className="main-text">
-                        교환하려면
-                        <br />
-                        교환하기 버튼을 누르세요.
+                    SignaturePending ? (
+                      <div className="info-text">
+                        <div className="main-text" style={{color: "red"}}>
+                          UniWaffle 어플리케이션에서
+                          <br />
+                          동의를 눌러주세요.
+                        </div>
+                        <div className="warning-text">
+                          교환하면 이전으로 되돌릴 수 없습니다.
+                        </div>
                       </div>
-                      <div className="warning-text">
-                        교환하면 이전으로 되돌릴 수 없습니다.
+                      
+                    ) : (
+  
+                      <div className="info-text">
+                        <div className="main-text">
+                          교환하려면
+                          <br />
+                          교환하기 버튼을 누르세요.
+                        </div>
+                        <div className="warning-text">
+                          교환하면 이전으로 되돌릴 수 없습니다.
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                      // <div className="exchange-status">
+                      //   <Player 
+                      //     autoplay
+                      //     loop={true}
+                      //     animationData={loading}
+                      //     className="status-icon">
+                      //   </Player>
+                      //   <div className="status-message">
+                      //     <div className="status-title">교환을 진행하고 있습니다</div>
+                      //     <div className="status-description">
+                      //       최대 3분 정도 소요될 수 있습니다. 잠시만 기다려주세요.
+                      //     </div>
+                      //   </div>
+                      // </div>
+                    )
 
-                <div className="button-container">
-
-                  {SignaturePending ? (
-                    <button className="exchange-button" style={{cursor: "not-allowed"}}>
-                      교환하기
-                    </button>
-                  ) : (
-                    <button className="exchange-button" onClick={handleExchangeClick}>
-                      교환하기
-                    </button>
                   )}
-                  <button className="close-button" onClick={onClose}>
-                    <u>창 닫기</u>
+
+
+              {!TransactionPending && (<div className="button-container">
+
+                {SignaturePending ? (
+                  <button className="exchange-button" style={{cursor: "not-allowed"}}>
+                    교환하기
                   </button>
-                </div>
+                ) : (
+                  <button className="exchange-button" onClick={handleExchangeClick}>
+                    교환하기
+                  </button>
+                )}
+                <button className="close-button" onClick={onClose}>
+                  <u>창 닫기</u>
+                </button>
+              </div>) }
+
+
               </motion.div>
 
 
