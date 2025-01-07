@@ -8,6 +8,7 @@ interface NFT {
 	name: string;
 	description: string;
 	mint_address: string;
+  owner: string;
 }
 
 export const MApp: React.FC = () => {
@@ -15,43 +16,86 @@ export const MApp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isVerified, setIsVerified] = useState(false); // 인증 성공 여부
 
-  const [loading, setLoading] = React.useState(false);
+  const [isInValidEmail, setIsInValidEmail] = useState(false);
   const [nftData, setNftData] = React.useState<NFT[]>([]);
+  const [prize, setPrize] = useState(Array(20).fill(0));
+  const [sum, setSum] = useState(0);
 
   React.useEffect(() => {
-    
+    // nft 별로 가각 USHD 금액 가져오기 
+    setSum(0);
+			if (nftData.length > 0) {
+				nftData.forEach((nft, index) => {
+					// console.log("haha " + address + " "+ index +" " + nft.mint_address);
+					getPrizeAmount(nft.owner, nft.mint_address, index); //수정 예정
+				}
+			)
+		}
   }, [nftData]);
   
     const handleSubmit = async (event: React.FormEvent) => {
       event.preventDefault(); // 폼의 기본 동작(새로고침)을 막음
-      try {
-        const vaild = await axios.get(`https://ums.ltcwareko.com/checkUserEmailExists?email_address=${email}`);
-        if (vaild.data.status != 201) {
-          alert("유효하지 않은 이메일입니다.")
-        }
-      } catch(error) {
-        console.error('Error verifying email:', error);
-      }
+      // try {
+      //   const vaild = await axios.get(`https://ums.ltcwareko.com/checkUserEmailExists?email_address=${email}`);
+      //   console.log(vaild.data);
+      //   if (vaild.data.status != 201) {
+      //     alert("유효하지 않은 이메일입니다.")
+      //   }
+      // } catch(error) {
+      //   console.error('Error verifying email:', error);
+      // }
+      // console.log("haha");
+      setSum(0);
 
       try {
-        const res = await axios.get(`https://ums.ltcwareko.com/getGUIDFromEmail?email=${email}`)
+        const res = await axios.get(`https://ums.ltcwareko.com/getGUIDFromEmail?email=${email}`);
+        // console.log(res);
         const guid = res.data.data.GUID
-        if (guid == null || guid == undefined) {
-          alert("유효하지 않은 유저입니다.")
-        }
+        // console.log(guid);
+
         const nft_res = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTDataFromGUID?guid=${guid}`)
         const nft_data = nft_res.data.data.value.nft_data
-        if (nft_data == null || nft_data == undefined) {
-          alert("컷!")
-        }
+        
+        // console.log(nft_data);
         setNftData(nft_data)
 
+        // Verified 화면 true 세팅
+        setIsVerified(true);
+        setIsInValidEmail(false);
       } catch {
-        console.error("error!!!!!")
+        console.error("getGUIDFromEmail Error");
+        setIsInValidEmail(true);
       }
 
-      setIsVerified(true);
     };
+
+
+  const getPrizeAmount = async (address: string, mint_address: string, index: number) => {	
+    try {
+      const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${mint_address}`);
+      const prizeAmount = response.data.data;
+
+      if (prizeAmount.value != null) {
+        setPrize((prev) => {
+          const newArray = [...prev];
+          newArray[index] = prizeAmount.value.prize; // 변경된 원소
+          setSum(sum + newArray[index]);
+          return newArray; // 새로운 참조 반환
+        });
+        // nftData[index].prize = prizeAmount.value.prize;
+      } else {
+        // setPrize((prev) => {
+        // 	const newArray = [...prev];
+        // 	newArray[index] = 0; // 변경된 원소
+        // 	return newArray; // 새로운 참조 반환
+        // });
+      }
+      console.log(prizeAmount)
+
+    } catch (error) {
+      console.error('Error fetching prize amount:', error);
+    }
+  }
 
   // 조건부 렌더링: 인증 성공 여부에 따라 화면 변경
   if (isVerified) {
@@ -97,7 +141,7 @@ export const MApp: React.FC = () => {
                         <div className="nft-description3">
                           {nft.description}
                         </div>
-                        <div className="nft-price3">1849 USHD</div>
+                        <div className="nft-price3">{prize[index]} USHD</div>
                       </div>
                     </div>
                   </div>
@@ -119,7 +163,7 @@ export const MApp: React.FC = () => {
               <div className="amount-label3">
                 현재 지갑의 교환 금액 총합:
               </div>
-              <div className="amount-value3">1849 USHD</div>
+              <div className="amount-value3">{sum} USHD</div>
             </div>
           </div>
           <button className="back-button3" tabIndex={0} onClick={()=>setIsVerified(false)}>
@@ -151,7 +195,8 @@ export const MApp: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <button type="submit" className="submit-button">USHD 수량 확인하기</button>
+          {isInValidEmail && <div className="warning2">유효하지 않은 이메일입니다.</div>}
+          <button type="submit" className="submit-button2">USHD 수량 확인하기</button>
         </form>
       </section>
       </>

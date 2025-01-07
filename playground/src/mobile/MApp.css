@@ -90,6 +90,8 @@ align-items: center;
 gap: 20px;
 overflow: hidden;
 justify-content: center;
+width: 150%;
+transform: translateX(-16%);
 }
 .gallery-image-1 {
 aspect-ratio: 1.65;
@@ -150,18 +152,24 @@ max-width: 280px;
 align-items: center;
 gap: 12px;
 font-size: 16px;
-color: rgba(0, 0, 0, 0.25);
+color: black;
 line-height: 1;
 justify-content: center;
 padding: 16px;
 border: 2px solid rgba(0, 0, 0, 0.25);
 }
-.submit-button {
+
+.warning2 {
+    margin-top: 20px;
+    color: red;
+}
+
+.submit-button2 {
 border-radius: 4px;
 background-color: rgba(60, 132, 255, 1);
 align-self: center;
 display: flex;
-margin-top: 60px;
+margin-top: 20px;
 align-items: center;
 gap: 12px;
 font-size: 14px;
@@ -173,6 +181,7 @@ padding: 14px 20px;
 border: none;
 cursor: pointer;
 }
+
 .footer {
 display: flex;
 flex-direction: column;
@@ -255,7 +264,6 @@ font-weight: 400;
     width: 100%;
     flex-direction: column;
     justify-content: center;
-    margin: 0;
     padding: 60px 20px;
     }
 .exchange-wrapper3 {
@@ -288,8 +296,8 @@ margin-top: 20px;
 }
 .nft-card-section3 {
 display: flex;
-margin-top: 60px;
-width: 100%;
+width: 80%;
+margin: 0 auto;
 flex-direction: column;
 justify-content: center;
 }

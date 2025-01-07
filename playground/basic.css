@@ -55,6 +55,7 @@ html, body {
     margin: 0 auto; /* Center horizontally */
     margin-top: 8%;
     font-weight: bold;
+    color: black;
 }
 
 #event-info {
@@ -113,6 +114,7 @@ html, body {
     align-items: center;
     margin: 0 auto; /* Center horizontally */
     margin-top: 3%;
+    color: black;
 }
 
 #gallery-container {

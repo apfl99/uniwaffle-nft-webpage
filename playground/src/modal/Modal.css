@@ -44,9 +44,11 @@ margin: auto 0;
 .image-container {
     border-radius: 12px;
     display: flex;
-    width: 100%;
+    width: 96%;
     flex-direction: column;
     overflow: hidden;
+    margin: 0 auto;
+    margin-top: 4px;
 }
 
 .image-wrapper {
@@ -65,7 +67,7 @@ border-radius: 24px;
 background-color: rgba(29, 29, 32, 1);
 box-shadow: 0px 7px 17px rgba(20, 37, 62, 0.25);
 display: flex;
-width: 100%;
+width: 90%;
 max-width: 304px;
 flex-direction: column;
 justify-content: center;
@@ -223,6 +225,7 @@ justify-content: center;
 padding: 16px 28px;
 z-index: 1050; /* 높은 우선순위 */
 position: relative; /* 기본 위치 */
+background-color: #f9f9f9;
 }
 
 .close-effect-button {
@@ -240,6 +243,7 @@ position: relative; /* 기본 위치 */
     padding: 16px 28px;
     position: relative; /* z-index가 동작하려면 position이 필요 */
     z-index: 1001; /* 충분히 높은 값 */
+    background-color: #f9f9f9;
     }
 
 
@@ -263,6 +267,7 @@ position: relative; /* 기본 위치 */
     color: rgba(0, 0, 0, 1);
     z-index: 1000; 
     cursor:pointer;
+    background-color: #f9f9f9;
 }
 
 .preview-price {
@@ -324,9 +329,48 @@ margin-top: 40px;
     position: absolute; /* 부모가 relative 또는 fixed여야 작동 */
     top: 48%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 정확한 중앙 배치 */
+    transform: translate(-49%, -53%); /* 정확한 중앙 배치 */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 500;
+  }
+
+  .exchange-status {
+    align-self: stretch;
+    display: flex;
+    min-width: 240px;
+    flex-direction: column;
+    font-family: Pretendard, sans-serif;
+    text-align: center;
+    justify-content: center;
+    flex: 1;
+    flex-basis: 0%;
+    margin: auto 0;
+  }
+  .status-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+    width: 200px;
+    align-self: center;
+    max-width: 100%;
+  }
+  .status-message {
+    display: flex;
+    margin-top: 60px;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .status-title {
+    color: rgba(0, 0, 0, 1);
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .status-description {
+    color: rgba(0, 0, 0, 0.75);
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 20px;
   }
