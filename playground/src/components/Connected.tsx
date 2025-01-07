@@ -51,6 +51,7 @@ export const Connected: React.FC = () => {
 	const { connected, publicKey } = useWallet();
 	const [loading, setLoading] = React.useState(false);
 	const [nftData, setNftData] = React.useState<NFT[]>([]);
+	const [prize, setPrize] = useState(Array(20).fill(0));
 	const [sum, setSum] = useState(0);
 	const address = publicKey?.toBase58() || '';
 	const [chance , setChance] = useState(0);
@@ -73,10 +74,20 @@ export const Connected: React.FC = () => {
 			const prizeAmount = response.data.data;
 
 			if (prizeAmount.value != null) {
-				nftData[index].prize = prizeAmount.value.prize;
+				setPrize((prev) => {
+					const newArray = [...prev];
+					newArray[index] = prizeAmount.value.prize; // 변경된 원소
+					return newArray; // 새로운 참조 반환
+				});
+				// nftData[index].prize = prizeAmount.value.prize;
 			} else {
-				nftData[index].prize = 0;
+				// setPrize((prev) => {
+				// 	const newArray = [...prev];
+				// 	newArray[index] = 0; // 변경된 원소
+				// 	return newArray; // 새로운 참조 반환
+				// });
 			}
+			console.log(prizeAmount)
 
 		} catch (error) {
 			console.error('Error fetching prize amount:', error);
@@ -101,7 +112,7 @@ export const Connected: React.FC = () => {
 		// nft 별로 가각 USHD 금액 가져오기 
 			if (nftData.length > 0) {
 				nftData.forEach((nft, index) => {
-					console.log("haha " + address + " "+ index +" " + nft.mint_address);
+					// console.log("haha " + address + " "+ index +" " + nft.mint_address);
 					getPrizeAmount(address, nft.mint_address, index);
 				}
 			)
@@ -181,13 +192,13 @@ export const Connected: React.FC = () => {
 										{check[index] ? 
 											(
 												<div className="price-container">
-													<div className="price-text">{nft.prize} USHD</div>
+													<div className="price-text">{prize[index]} USHD</div>
 												</div>
 											) 
 												: 
 											(
 												<button id="exchange-btn" onClick={() => {
-													setSum(sum + nft.prize);
+													setSum(sum + prize[index]);
 													setSelected(index); //nft 배열 인덱스 
 													openEffect(); // Effect 창 open 
 												}}>USHD 수량 확인</button>
@@ -211,8 +222,8 @@ export const Connected: React.FC = () => {
 					</div>
 				</div>
 				{/* 교환금액 확인 이펙트 */}
-				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]}/>
-				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} onChange={(value) => setChance(value)} />
+				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]} prize={prize[selected]}/>
+				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} prize={prize[exchangeSelected]} onChange={(value) => setChance(value)} />
 				<div id="wallet-connection">
 					<div id="wallet-status">
 						<div id="wallet-info">

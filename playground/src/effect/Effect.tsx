@@ -8,6 +8,7 @@ interface EffectProps {
   isEffectOpen: boolean;
   closeEffect: () => void;
   nft: NFT;
+  prize: number;
 }
 
 interface NFT {
@@ -15,10 +16,9 @@ interface NFT {
 	name: string;
 	description: string;
   mint_address: string;
-  prize: number;
 }
 
-export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect, nft}) => {
+export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect, nft, prize}) => {
   return (
     <div className="effect1-container">
       {isEffectOpen && (
@@ -32,7 +32,7 @@ export const Effect: React.FC<EffectProps> = ({ isEffectOpen, closeEffect, nft})
               className="light-image"
             />
             {/* NFT 이미지 */}
-            <Card nft={nft}/>
+            <Card nft={nft} prize={prize}/>
             <button className="close-effect-button" onClick={closeEffect}>
               닫기
             </button>

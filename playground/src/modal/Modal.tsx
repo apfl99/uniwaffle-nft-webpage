@@ -14,6 +14,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   nft: NFT;
+  prize: number;
   onChange: (value: number) => void;
 }
 
@@ -22,7 +23,6 @@ interface NFT {
 	name: string;
 	description: string;
 	mint_address: string;
-  prize: number;
 }
 
 const MasterAddress = "Cb4Z8eRfdoPpojwfaownPhS86Z4TzukrSVLZfn6HLfDR"
@@ -53,7 +53,7 @@ const decreaseChance = (address: string) => {
 }
 
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, onChange }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft,prize, onChange }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
@@ -169,6 +169,8 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, onChange }) 
 
   const handleCloseTab = () => {
     setIsInactive(true);
+    setSignaturePending(false);
+    setTransactionPending(false);
     onClose();
   };
 
@@ -257,7 +259,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, onChange }) 
                 </div>
               </div>
               <div className="price-container">
-                <div className="price-text">{nft.prize} USHD</div>
+                <div className="price-text">{prize} USHD</div>
               </div>
             </motion.div>
             <motion.div className="price-large"
@@ -265,7 +267,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, onChange }) 
               animate={{ opacity: isInactive ? 1 : 0 }} // 애니메이션 상태
               transition={{ duration: 0.5 }}
             >
-              {nft.prize} USHD
+              {prize} USHD
             </motion.div>
           </div>
           
