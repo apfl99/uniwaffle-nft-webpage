@@ -5,6 +5,7 @@ import { WalletConnectButton, WalletDisconnectButton } from '@solana/wallet-adap
 import axios from 'axios';
 import {Modal} from '../modal/Modal'
 import {Effect} from '../effect/Effect'
+import { tr } from 'framer-motion/client';
 
 interface NFT {
 	image: string;
@@ -56,6 +57,7 @@ export const Connected: React.FC = () => {
 	const [sum, setSum] = useState(0);
 	const address = publicKey?.toBase58() || '';
 	const [chance , setChance] = useState(0);
+	const [exchangeDisabled, setExchangeDisabled] = useState(false);
 
 	const fetchNFTData = async (address: string) => {
 		setLoading(true);
@@ -99,6 +101,9 @@ export const Connected: React.FC = () => {
 			try {
 				const response = await axios.get(`https://ums.ltcwareko.com/getRemainingChance?address=${address}`);
 				setChance(response.data.data.chance);
+				if (response.data.data.chance == 0) {
+					setExchangeDisabled(true);	
+				}
 			} catch (error) {
 				console.error('Error fetching exchange chance:', error);
 			}
@@ -205,7 +210,7 @@ export const Connected: React.FC = () => {
 										}
 									</div>
 									{check[index] && 
-									(<button className="nclose-button" onClick={()=>openModal(index)}>
+									(<button className="nclose-button" onClick={()=>openModal(index)} disabled={exchangeDisabled}>
 										교환하기
 									</button>)
 									}

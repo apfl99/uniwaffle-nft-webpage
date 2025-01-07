@@ -156,10 +156,11 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
         const result = await connection.confirmTransaction({ blockhash, lastValidBlockHeight, signature });
         console.log('Transaction confirmed:', result);
       } catch (error: unknown) {
-        console.log(`Transaction confirmed! ${(error as Error)?.message}`);
+        console.warn(`Transaction confirmed! ${(error as Error)?.message}`);
       }
       
       // 1초마다 NFT 조회
+      console.log('Checking NFT data...');
       let attempts = 0;
       const maxAttempts = 10;
       const address = publicKey.toBase58();
@@ -167,7 +168,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
         try {
           const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTData?address=${address}`);
           const nft_data = response.data.data.value.nft_data;
-          console.log('NFT data:', nft_data);
           let isFound = false;
           for (let i = 0; i < nft_data.length; i++) {
             if (nft_data[i].mint_address === mint_address) {
