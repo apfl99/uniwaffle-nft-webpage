@@ -15,6 +15,7 @@ export const MApp: React.FC = () => {
 
   const [email, setEmail] = useState('');
   const [isVerified, setIsVerified] = useState(false); // 인증 성공 여부
+
   const [isInValidEmail, setIsInValidEmail] = useState(false);
   const [nftData, setNftData] = React.useState<NFT[]>([]);
   const [prize, setPrize] = useState(Array(20).fill(0));
