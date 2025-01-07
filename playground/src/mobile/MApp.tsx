@@ -14,8 +14,7 @@ export const MApp: React.FC = () => {
 
   const [email, setEmail] = useState('');
   const [isVerified, setIsVerified] = useState(false); // 인증 성공 여부
-
-  const [loading, setLoading] = React.useState(false);
+  const [isInValidEmail, setIsInValidEmail] = useState(false);
   const [nftData, setNftData] = React.useState<NFT[]>([]);
 
   React.useEffect(() => {
@@ -24,33 +23,34 @@ export const MApp: React.FC = () => {
   
     const handleSubmit = async (event: React.FormEvent) => {
       event.preventDefault(); // 폼의 기본 동작(새로고침)을 막음
-      try {
-        const vaild = await axios.get(`https://ums.ltcwareko.com/checkUserEmailExists?email_address=${email}`);
-        if (vaild.data.status != 201) {
-          alert("유효하지 않은 이메일입니다.")
-        }
-      } catch(error) {
-        console.error('Error verifying email:', error);
-      }
+      // try {
+      //   const vaild = await axios.get(`https://ums.ltcwareko.com/checkUserEmailExists?email_address=${email}`);
+      //   console.log(vaild.data);
+      //   if (vaild.data.status != 201) {
+      //     alert("유효하지 않은 이메일입니다.")
+      //   }
+      // } catch(error) {
+      //   console.error('Error verifying email:', error);
+      // }
+
 
       try {
         const res = await axios.get(`https://ums.ltcwareko.com/getGUIDFromEmail?email=${email}`)
         const guid = res.data.data.GUID
-        if (guid == null || guid == undefined) {
-          alert("유효하지 않은 유저입니다.")
-        }
+
         const nft_res = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTDataFromGUID?guid=${guid}`)
         const nft_data = nft_res.data.data.value.nft_data
-        if (nft_data == null || nft_data == undefined) {
-          alert("컷!")
-        }
+ 
         setNftData(nft_data)
 
+        // Verified 화면 true 세팅
+        setIsVerified(true);
+        setIsInValidEmail(false);
       } catch {
-        console.error("error!!!!!")
+        console.error("getGUIDFromEmail Error");
+        setIsInValidEmail(true);
       }
 
-      setIsVerified(true);
     };
 
   // 조건부 렌더링: 인증 성공 여부에 따라 화면 변경
@@ -151,7 +151,8 @@ export const MApp: React.FC = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <button type="submit" className="submit-button">USHD 수량 확인하기</button>
+          {isInValidEmail && <div className="warning2">유효하지 않은 이메일입니다.</div>}
+          <button type="submit" className="submit-button2">USHD 수량 확인하기</button>
         </form>
       </section>
       </>
