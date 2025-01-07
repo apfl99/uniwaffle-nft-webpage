@@ -18,51 +18,40 @@ export const MApp: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
   const [nftData, setNftData] = React.useState<NFT[]>([]);
 
-  const address = "Aer7qXzAax8UUWf4UKAsXaNVD4p6uMVTWeVbgWFLTSem";
-
   React.useEffect(() => {
-      if (address) {
-        fetchNFTData(address);
-      }
-      console.log('Component has loaded');
-    }, [address]);
+    
+  }, [nftData]);
   
-  const handleSubmit = () => {
+    const handleSubmit = async (event: React.FormEvent) => {
+      event.preventDefault(); // 폼의 기본 동작(새로고침)을 막음
+      try {
+        const vaild = await axios.get(`https://ums.ltcwareko.com/checkUserEmailExists?email_address=${email}`);
+        if (vaild.data.status != 201) {
+          alert("유효하지 않은 이메일입니다.")
+        }
+      } catch(error) {
+        console.error('Error verifying email:', error);
+      }
 
-    setIsVerified(true);
-    // try {
-    //   // 이메일 인증 API 호출 (예제)
-    //   const response = await fetch('/api/verify-email', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ email }),
-    //   });
+      try {
+        const res = await axios.get(`https://ums.ltcwareko.com/getGUIDFromEmail?email=${email}`)
+        const guid = res.data.data.GUID
+        if (guid == null || guid == undefined) {
+          alert("유효하지 않은 유저입니다.")
+        }
+        const nft_res = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTDataFromGUID?guid=${guid}`)
+        const nft_data = nft_res.data.data.value.nft_data
+        if (nft_data == null || nft_data == undefined) {
+          alert("컷!")
+        }
+        setNftData(nft_data)
 
-    //   if (response.ok) {
-    //     // 인증 성공 시 상태 변경
-    //     setIsVerified(true);
-    //   } else {
-    //     // 인증 실패 처리
-    //     alert('이메일 인증에 실패했습니다.');
-    //   }
-    // } catch (error) {
-    //   console.error('인증 중 오류 발생:', error);
-    //   alert('오류가 발생했습니다. 다시 시도해주세요.');
-    // }
-  };
+      } catch {
+        console.error("error!!!!!")
+      }
 
-	const fetchNFTData = async (address: string) => {
-		setLoading(true);
-		try {
-			const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaNFTData?address=${address}`);
-			setNftData(response.data.data.value.nft_data);
-			console.log(response.data.data.value.nft_data);
-		} catch (error) {
-			console.error('Error fetching NFT data:', error);
-		} finally {
-			setLoading(false);
-		}
-	};
+      setIsVerified(true);
+    };
 
   // 조건부 렌더링: 인증 성공 여부에 따라 화면 변경
   if (isVerified) {
@@ -105,9 +94,9 @@ export const MApp: React.FC = () => {
                     <div className="nft-info3">
                       <div className="info-content3">
                         <h2 className="nft-title3">{nft.name}</h2>
-                        <p className="nft-description3">
+                        <div className="nft-description3">
                           {nft.description}
-                        </p>
+                        </div>
                         <div className="nft-price3">1849 USHD</div>
                       </div>
                     </div>
@@ -122,33 +111,7 @@ export const MApp: React.FC = () => {
 
 						)}
 
-            <div className="nft-card3">
-              <div className="image-container3">
-                <div className="image-wrapper3">
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/1704444c9b4801c3a6ba0a7ae57063ce05bc4779f86b77f1ac4fea4d8ff0ef0e?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
-                    className="nft-image3"
-                    alt="Uniwaffle Friends #192 NFT"
-                  />
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/92d01d9c872c759d8eea097cb12d4884c31498d8328fade81f97b8d60cdb2c66?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
-                    className="profile-image3"
-                    alt="Profile avatar"
-                  />
-                </div>
-              </div>
-              <div className="nft-info3">
-                <div className="info-content3">
-                  <h2 className="nft-title3">Uniwaffle Friends #192</h2>
-                  <p className="nft-description3">
-                    A Collection of Uniwaffle 2025 Beta Test Commemoratives
-                  </p>
-                  <div className="nft-price3">1849 USHD</div>
-                </div>
-              </div>
-            </div>
+           
           </div>
 
           <div className="total-amount3">
