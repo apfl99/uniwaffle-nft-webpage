@@ -217,7 +217,7 @@ export const Connected: React.FC = () => {
 					</div>
 				</div>
 				<Effect isEffectOpen={isEffectOpen} closeEffect={closeEffect} nft={nftData[selected]} prize={prize[selected]}/>
-				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} prize={prize[exchangeSelected]} onChange={(value: number) => setChance(value)} onChangeNFTData={(value: NFT[]) => setNftData(value)} originNFTData={nftData} onChangeSum={(value: number) => setSum(value)} sum={sum}/>
+				<Modal isOpen={isModalOpen} onClose={closeModal} nft={nftData[exchangeSelected]} prize={prize[exchangeSelected]} onChange={(value: number) => setChance(value)} onChangeNFTData={(value: NFT[]) => setNftData(value)} originNFTData={nftData} onChangeSum={(value: number) => setSum(value)} sum={sum} exchangeSelected={exchangeSelected}/>
 				<div id="wallet-connection">
 					<div id="wallet-status">
 						<div id="wallet-info">

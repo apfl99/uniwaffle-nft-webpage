@@ -30,6 +30,7 @@ interface ModalProps {
   originNFTData: NFT[];
   onChangeSum: (value: number) => void;
   sum : number;
+  exchangeSelected: number;
 }
 
 
@@ -61,7 +62,7 @@ const decreaseChance = (address: string) => {
 }
 
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onChange, onChangeNFTData, originNFTData, onChangeSum, sum }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onChange, onChangeNFTData, originNFTData, onChangeSum, sum, exchangeSelected }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
@@ -173,13 +174,17 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
           const updatedNFTData = newNFTData.filter((newNFT: NFT) => 
             !originNFTData.some((originNFT: NFT) => originNFT.mint_address === newNFT.mint_address)
           );
-          // console.log('Updated NFT data:', updatedNFTData);
+
+          const finalNFTData = originNFTData.map((nft, index) => 
+            index === exchangeSelected ? updatedNFTData[0] : nft
+          );
+          
           if (updatedNFTData.length > 0) {
             const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${updatedNFTData[0].mint_address}`);
             const prizeAmount = response.data.data;
             updatedNFTData[0].prize = prizeAmount.value.prize;
             setUpdatedNFT(updatedNFTData[0]);
-            onChangeNFTData(updatedNFTData);
+            onChangeNFTData(finalNFTData);
             // 합계 금액 변경
             var updatedSum = sum-prize+updatedNFTData[0].prize;
             onChangeSum(updatedSum);
