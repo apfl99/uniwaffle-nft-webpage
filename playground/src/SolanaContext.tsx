@@ -17,7 +17,7 @@ type Networks = WalletAdapterNetwork.Devnet | WalletAdapterNetwork.Mainnet
 export const SolanaContext = ({ children }: { children: ReactNode }) => {
 	const [currentNetwork, setCurrentNetwork] = useState<Networks>(WalletAdapterNetwork.Mainnet)
 
-	const endpoint = "http://1.229.180.186:15000"
+	const endpoint = "https://light-attentive-shard.solana-mainnet.quiknode.pro/f1142f0a6bb80c1945b9ed175b3c9f1a4cda8d92"
 
 	const wallets = useMemo(
 		() => [

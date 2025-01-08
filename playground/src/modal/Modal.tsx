@@ -28,6 +28,8 @@ interface ModalProps {
   onChange: (value: number) => void;
   onChangeNFTData: (value: NFT[]) => void;  
   originNFTData: NFT[];
+  onChangeSum: (value: number) => void;
+  sum : number;
 }
 
 
@@ -59,7 +61,7 @@ const decreaseChance = (address: string) => {
 }
 
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onChange, onChangeNFTData, originNFTData }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onChange, onChangeNFTData, originNFTData, onChangeSum, sum }) => {
   const [isInactive, setIsInactive] = useState(true); // 버튼 클릭 상태
   const Firstcontrols = useAnimation();
   const Secondcontrols = useAnimation();
@@ -171,13 +173,16 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
           const updatedNFTData = newNFTData.filter((newNFT: NFT) => 
             !originNFTData.some((originNFT: NFT) => originNFT.mint_address === newNFT.mint_address)
           );
-          console.log('Updated NFT data:', updatedNFTData);
+          // console.log('Updated NFT data:', updatedNFTData);
           if (updatedNFTData.length > 0) {
-            setUpdatedNFT(updatedNFTData[0]);
-            const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${mint_address}`);
+            const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${updatedNFTData[0].mint_address}`);
             const prizeAmount = response.data.data;
             updatedNFTData[0].prize = prizeAmount.value.prize;
+            setUpdatedNFT(updatedNFTData[0]);
             onChangeNFTData(updatedNFTData);
+            // 합계 금액 변경
+            var updatedSum = sum-prize+updatedNFTData[0].prize;
+            onChangeSum(updatedSum);
             break;
           }
 
@@ -198,6 +203,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
       setIsInactive(false);
       FirstCardAnimation();
       SecondCardAnimation();
+
 
       // 교환 횟수 차감
       const decreasedChance = decreaseChance(publicKey.toBase58());
