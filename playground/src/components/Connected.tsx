@@ -111,11 +111,10 @@ export const Connected: React.FC = () => {
 
 	React.useEffect(() => {
 		// nft 별로 가각 USHD 금액 가져오기 
-			if (nftData.length > 0) {
-				nftData.forEach((nft, index) => {
-					getPrizeAmount(address, nft.mint_address, index);
-				}
-			)
+		if (nftData.length > 0) {
+			nftData.forEach((nft, index) => {
+				getPrizeAmount(address, nft.mint_address, index);
+			});
 		}
 
 	}, [nftData]);

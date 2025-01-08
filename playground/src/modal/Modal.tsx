@@ -72,7 +72,6 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
   const handleExchangeClick = async () => {
     // 교환 요청
     await SendNFTTransaction(nft.mint_address);
-
   };
 
   const SendNFTTransaction = async (mint_address: string) => {
@@ -107,7 +106,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
         units: 100000,
       });
       const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
-          microLamports: 2000000,
+          microLamports: 200000,
       });
 
       transaction.add(modifyComputeUnits);
@@ -175,6 +174,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
           console.log('Updated NFT data:', updatedNFTData);
           if (updatedNFTData.length > 0) {
             setUpdatedNFT(updatedNFTData[0]);
+            const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${mint_address}`);
+            const prizeAmount = response.data.data;
+            updatedNFTData[0].prize = prizeAmount.value.prize;
             onChangeNFTData(updatedNFTData);
             break;
           }
@@ -412,7 +414,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
                 <div className="image-wrapper">
                   <img
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/de6380ad135d8dcbc54c9ac73b9dc8b6eeb05db1c14e516e5bf8f25283274a68?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8"
+                    src={updatedNFT.image}
                     className="image"
                     alt="artwork preview"
                   />
@@ -433,7 +435,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
                 </div>
               </div>
               <div className="price-container">
-                <div className="price-text">??? USHD</div>
+                <div className="price-text">{updatedNFT.prize} USHD</div>
               </div>
             </div>
             <button 
