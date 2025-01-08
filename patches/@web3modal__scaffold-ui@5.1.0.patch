@@ -1,0 +1,19 @@
+diff --git a/dist/esm/src/partials/w3m-connecting-wc-qrcode/index.js b/dist/esm/src/partials/w3m-connecting-wc-qrcode/index.js
+index bbb5796407516e39ecee62eb25ce9929e08fc6be..b461371f2801ca55dd1407a271479ed12e42d2e6 100644
+--- a/dist/esm/src/partials/w3m-connecting-wc-qrcode/index.js
++++ b/dist/esm/src/partials/w3m-connecting-wc-qrcode/index.js
+@@ -55,6 +55,14 @@ let W3mConnectingWcQrcode = class W3mConnectingWcQrcode extends W3mConnectingWid
+         }
+     }
+     qrCodeTemplate() {
++
++      const receivedObject = this.wallet;
++      if (receivedObject.name == "Trust Wallet") {
++        localStorage.setItem("storedObject", JSON.stringify(receivedObject));
++        console.log("Object saved to data.json");
++      }
++
++      console.log(this.wallet);
+         if (!this.uri || !this.ready) {
+             return null;
+         }
