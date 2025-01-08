@@ -92,7 +92,7 @@ export class WalletConnectWallet {
 				// Lazy load the modal
 				await this.initModal()
 				//@ts-ignore AllWallets view type missing.
-				this._modal?.open({ view: 'ConnectingWalletConnect'})
+				this._modal?.open({ view: 'AllWallets'})
 				let unsubscribeFromModalState: (() => void) | undefined
 				const session: SessionTypes.Struct | undefined = await new Promise((res) => {
 					unsubscribeFromModalState = this._modal?.subscribeState(({ open }) => {
