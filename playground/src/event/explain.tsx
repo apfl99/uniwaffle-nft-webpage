@@ -25,7 +25,7 @@ const Explain: React.FC = () => {
         <div id="step-wrapper">
           <div id="step-content">
             <div id="step-indicator">Step 2</div>
-            <div id="step-description">창이 표시되면 'WalletConnect' 버튼을 클릭해주세요.</div>
+            <div id="step-description">창이 표시되면 'Uniwaffle' 버튼을 클릭해주세요.</div>
           </div>
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/4caad8969094fd2c3a69dbd4aaef29f668a9091796cacc39425e1b3c232c01fc?placeholderIfAbsent=true&apiKey=5af3aa077a7b43c6a493f500437ba1d8" id="wallet-screenshot" alt="WalletConnect 버튼 위치 스크린샷" />
         </div>
