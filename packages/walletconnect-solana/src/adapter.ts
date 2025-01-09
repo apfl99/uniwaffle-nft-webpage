@@ -27,7 +27,7 @@ export class WalletConnectWalletAdapter extends BaseSignerWalletAdapter {
 	name = WalletConnectWalletName
 	url = 'https://walletconnect.org'
 	icon =
-		'https://cdn.discordapp.com/attachments/1326744308350718045/1326755236697608262/appicon-512.png?ex=6780949a&is=677f431a&hm=f1926aa7d91d01c13a98d6cc5e5f5726c304b918e9ff0af25e5b1afdf006a51a&'
+		'https://bsp.ltcwareko.com/getImage?img=icon_uniwaffle.png'
 	// V0 transactions are supported via the `transaction` parameter, and is off-spec.
 	// Legacy transactions have these [parameters](https://docs.walletconnect.com/2.0/advanced/rpc-reference/solana-rpc#solana_signtransaction)
 	readonly supportedTransactionVersions: ReadonlySet<TransactionVersion> = new Set(['legacy', 0])
