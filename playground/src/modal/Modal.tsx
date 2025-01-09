@@ -165,7 +165,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
       
       // 1초마다 NFT 조회
       let attempts = 0;
-      const maxAttempts = 60;
+      const maxAttempts = 180;
       const address = publicKey.toBase58();
       while (attempts < maxAttempts) {
         try {
@@ -178,7 +178,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
           const finalNFTData = originNFTData.map((nft, index) => 
             index === exchangeSelected ? updatedNFTData[0] : nft
           );
-          
+
           if (updatedNFTData.length > 0) {
             const response = await axios.get(`https://bsp.ltcwareko.com/getSolanaPrizeAmount?address=${address}&mint_address=${updatedNFTData[0].mint_address}`);
             const prizeAmount = response.data.data;

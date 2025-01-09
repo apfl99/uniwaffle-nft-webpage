@@ -390,6 +390,17 @@ align-self: center;
 margin-top: 16px;
 max-width: 100%;
 }
+#product-image {
+  aspect-ratio: 0.46;
+  object-fit: contain;
+  object-position: center;
+  width: 194px;
+  border-radius: 0;
+  box-shadow: 0 0 16px rgba(43, 48, 118, 0.07);
+  align-self: center;
+  margin: 40px 0 0;
+  max-width: 100%;
+}
 #step-subtitle {
 color: rgba(0, 0, 0, 0.75);
 font-size: 16px;
