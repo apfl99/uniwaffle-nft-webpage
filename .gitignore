@@ -12,3 +12,5 @@ build
 dist
 out
 *.tsbuildinfo
+
+!/patches/d5af11ba35a812c44d6d758129332a49/dist
