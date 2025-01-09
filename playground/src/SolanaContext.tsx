@@ -25,7 +25,14 @@ export const SolanaContext = ({ children }: { children: ReactNode }) => {
 				network: currentNetwork,
 				options: {
 					projectId: 'bd4997ce3ede37c95770ba10a3804dad',
+					metadata: {
+						name: 'UniWaffle',
+						description: 'My App Description',
+						icons: ["https://www.npmjs.com/npm-avatar/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXJVUkwiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci82Mjk4MDYwNzA2ZDFkNzQ5MDUzZTI5ZTRiZjI5ZjQ2MD9zaXplPTEwMCZkZWZhdWx0PXJldHJvIn0.QPqjnRHrymAo3WXT02hNwDtiWJ6qIspKiwF6MhCVFoU"],
+						url: 'http://www.uniwaffle.com/'
+					  }
 				},
+				
 			}),
 		],
 		[currentNetwork],
