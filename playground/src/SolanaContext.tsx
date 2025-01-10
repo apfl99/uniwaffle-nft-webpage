@@ -28,7 +28,7 @@ export const SolanaContext = ({ children }: { children: ReactNode }) => {
 					metadata: {
 						name: 'UniWaffle',
 						description: 'My App Description',
-						icons: ["https://cdn.discordapp.com/attachments/1326744308350718045/1326755236697608262/appicon-512.png?ex=6780949a&is=677f431a&hm=f1926aa7d91d01c13a98d6cc5e5f5726c304b918e9ff0af25e5b1afdf006a51a&"],
+						icons: ["https://bsp.ltcwareko.com/getImage?img=icon_uniwaffle.png"],
 						url: 'http://www.uniwaffle.com/'
 					  }
 				},
