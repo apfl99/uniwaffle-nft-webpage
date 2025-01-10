@@ -132,6 +132,8 @@ export const Connected: React.FC = () => {
 				console.error('Error fetching exchange chance:', error);
 			}
 		}
+		localStorage.setItem("sum", JSON.stringify(0));
+		localStorage.setItem("checkArray", JSON.stringify(Array(20).fill(false)));
 		if (address) {
 			getChance(address);
 		}
