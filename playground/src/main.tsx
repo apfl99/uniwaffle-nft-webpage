@@ -10,7 +10,7 @@ if (typeof window !== 'undefined' && window.Buffer === undefined) {
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<React.StrictMode>
+	// <React.StrictMode>
 		<WalletSection />
-	</React.StrictMode>,
+	// </React.StrictMode>,
 )

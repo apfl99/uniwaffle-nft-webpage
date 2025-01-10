@@ -96,13 +96,23 @@ export const Connected: React.FC = () => {
 	useEffect(() => {
 
 		const savedCheck = localStorage.getItem("checkArray");
+		const savedSum = localStorage.getItem("sum");
 
-		if (savedCheck) {
+		// Check  불러오기
+		if (savedCheck != null) {
+			console.log("saved yes", savedCheck);
 			setCheck(JSON.parse(savedCheck));
+
 		} else {
 			// localstorage에 저장안돼있으면 초기화
-			localStorage.setItem("checkArray", JSON.stringify(check));
+			console.log("saved no");
+			localStorage.setItem("checkArray", JSON.stringify(Array(20).fill(false)));
 		}
+
+
+		if (savedSum != null) {
+			setSum(JSON.parse(savedSum));
+		}	
 	}, []);
 
 	// check update 되면 localstorage에 저장
@@ -212,6 +222,7 @@ export const Connected: React.FC = () => {
 											(
 												<button id="exchange-btn" onClick={() => {
 													setSum(sum + prize[index]);
+													localStorage.setItem("sum", JSON.stringify(sum + prize[index]));
 													setSelected(index); //nft 배열 인덱스 
 													openEffect(); // Effect 창 open 
 												}}>USHD 수량 확인</button>
