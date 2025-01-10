@@ -19,9 +19,6 @@ const Help: React.FC = () => {
                     · 네트워크 연결이 불안정하면 지갑 연결이 실패할 수 있으니 안정적인
                     환경에서 시도해주세요.
                     <br />
-                    <span id="text-highlight">
-                    · 안정적인 연결을 위해 Trust Wallet으로 연결하는 것을 권장드립니다.
-                    </span>
                 </div>
             </div>
         </div>
