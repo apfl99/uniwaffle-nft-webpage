@@ -188,6 +188,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
             // 합계 금액 변경
             var updatedSum = sum-prize+updatedNFTData[0].prize;
             onChangeSum(updatedSum);
+            localStorage.setItem('sum', JSON.stringify(updatedSum));
             break;
           }
 
