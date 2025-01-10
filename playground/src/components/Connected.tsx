@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import './connected.css';
 import { WalletConnectButton, WalletDisconnectButton } from '@solana/wallet-adapter-react-ui';
@@ -91,6 +91,24 @@ export const Connected: React.FC = () => {
 			console.error('Error fetching prize amount:', error);
 		}
 	}
+
+	// 마운트 될 때 localstorage에 저장된 check 불러오기
+	useEffect(() => {
+
+		const savedCheck = localStorage.getItem("checkArray");
+
+		if (savedCheck) {
+			setCheck(JSON.parse(savedCheck));
+		} else {
+			// localstorage에 저장안돼있으면 초기화
+			localStorage.setItem("checkArray", JSON.stringify(check));
+		}
+	}, []);
+
+	// check update 되면 localstorage에 저장
+	useEffect(() => {
+		localStorage.setItem("checkArray", JSON.stringify(check));
+	}, [check]);
 
 	React.useEffect(() => {
 		const getChance = async (address : string) => {
