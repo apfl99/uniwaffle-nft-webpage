@@ -343,6 +343,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, nft, prize, onCha
                         <div className="status-description">
                           최대 3분 정도 소요될 수 있습니다. 잠시만 기다려주세요.
                         </div>
+                        <div className="status-description-h">
+                          교환 중에는 유니와플 앱을 종료하지 마세요.
+                        </div>
                         <div className="status-description">
                           NFT 수신 메시지를 확인하셔야 교환이 완료됩니다.
                         </div>
