@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import App from '../App.tsx'
 import '../index.css'
 import { SolanaContext } from '../SolanaContext.tsx'
@@ -29,6 +29,24 @@ const MobileComponent: React.FC = () => {
 const WalletSection: React.FC = () => {
 
     const isMobile = useDeviceType();
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent): void => {
+          event.preventDefault();
+          let dbName = "WALLET_CONNECT_V2_INDEXED_DB";
+          const request = window.indexedDB.deleteDatabase(dbName);
+          event.returnValue = ""; // 브라우저 기본 메시지 표시
+        };
+    
+        // beforeunload 이벤트 리스너 등록
+        window.addEventListener("beforeunload", handleBeforeUnload);
+    
+        return () => {
+          // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+          window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+      }, []);
+
 
     return isMobile ? (
          <MobileComponent />
