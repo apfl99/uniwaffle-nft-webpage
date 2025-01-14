@@ -108,7 +108,7 @@ export const Connected: React.FC = () => {
 			window.location.reload();
 
 			//handleSessionEnd(); // 세션 종료 처리
-		}, 1 * 10 * 1000);
+		}, 30 * 60 * 1000);
 
 
 
