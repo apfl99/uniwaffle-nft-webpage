@@ -31,22 +31,18 @@ const WalletSection: React.FC = () => {
     const isMobile = useDeviceType();
 
     useEffect(() => {
-        const handleBeforeUnload = (event: BeforeUnloadEvent): void => {
-          event.preventDefault();
+        const handleUnload = () => {
+          console.log("창이 닫히거나 떠날 때 실행");
           let dbName = "WALLET_CONNECT_V2_INDEXED_DB";
           const request = window.indexedDB.deleteDatabase(dbName);
-          event.returnValue = ""; // 브라우저 기본 메시지 표시
         };
     
-        // beforeunload 이벤트 리스너 등록
-        window.addEventListener("beforeunload", handleBeforeUnload);
+        window.addEventListener("unload", handleUnload);
     
         return () => {
-          // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-          window.removeEventListener("beforeunload", handleBeforeUnload);
+          window.removeEventListener("unload", handleUnload);
         };
-      }, []);
-
+    }, []);
 
     return isMobile ? (
          <MobileComponent />

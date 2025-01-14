@@ -98,6 +98,20 @@ export const Connected: React.FC = () => {
 		const savedCheck = localStorage.getItem("checkArray");
 		const savedSum = localStorage.getItem("sum");
 
+
+		// 30분 타이머 (30분 = 30 * 60 * 1000ms)
+		const sessionTimeout = setTimeout(() => {
+			alert("세션이 종료되었습니다. 로그아웃됩니다.");
+			// 강제로 페이지 새로고침
+			let dbName = "WALLET_CONNECT_V2_INDEXED_DB";
+          	const request = window.indexedDB.deleteDatabase(dbName);
+			window.location.reload();
+
+			//handleSessionEnd(); // 세션 종료 처리
+		}, 1 * 10 * 1000);
+
+
+
 		// Check  불러오기
 		if (savedCheck != null) {
 			console.log("saved yes", savedCheck);
